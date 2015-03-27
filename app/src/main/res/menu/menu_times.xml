@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.vagnnermartins.marcaponto.ui.activity.TimesActivity">
+    <item
+        android:id="@+id/menu_times_clear"
+        android:orderInCategory="100"
+        android:title="@string/clear"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@android:drawable/ic_menu_delete"/>
+</menu>

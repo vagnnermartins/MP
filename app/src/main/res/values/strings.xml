@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Marca Ponto</string>
+    <string name="fragment_time_clock">Marcador</string>
+    <string name="fragment_history">Histórico</string>
+    <string name="fragment_settings">Configurações</string>
+    <string name="time_clock_register">Registrar Ponto</string>
+    <string name="fragment_settings_hours">Horários</string>
+    <string name="fragment_settings_entrance_hour">Cadastrar horários de entrada e saída</string>
+    <string name="times_entrance_hour">Cadastre abaixo os horários de entrada e saída</string>
+    <string name="entrance">Entrada</string>
+    <string name="pause">Pausa</string>
+    <string name="back">Volta</string>
+    <string name="quit">Saída</string>
+    <string name="fragment_settings_notifications">Notificações</string>
+    <string name="fragment_settings_notifications_message">Receber notificações nas horas de registro de ponto</string>
+    <string name="title_activity_times">Horários</string>
+    <string name="no_hour">--:--</string>
+    <string name="zero_hour">00:00</string>
+    <string name="previous"><![CDATA[<<]]></string>
+    <string name="next"><![CDATA[>>]]></string>
+    <string name="clear">Limpar</string>
+    <string name="delete">Deletar</string>
+    <string name="deleted_message">Horário excluído com sucesso!</string>
+    <string name="undo">Desfazer</string>
+    <string name="total">TOTAL</string>
+</resources>

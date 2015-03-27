@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">#2196F3</color>
+    <color name="accent">#F50057</color>
+    <color name="toolbar">#d22196f3</color>
+    <color name="primary_dark">#0D47A1</color>
+
+    <color name="activated">#ffd2d2d2</color>
+    <color name="selected">#ffbdbdbd</color>
+
+    <color name="primary_text">#d9000000</color>
+    <color name="second_text">#8c000000</color>
+</resources>
