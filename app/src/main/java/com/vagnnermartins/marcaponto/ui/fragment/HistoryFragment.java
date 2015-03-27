@@ -100,6 +100,7 @@ public class HistoryFragment extends Fragment {
                 R.layout.item_history,
                 app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())),
                 app.mapTimes));
+        calcMonthBalance(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())));
     }
 
     private Callback onFindHistoryCallback() {
@@ -112,39 +113,40 @@ public class HistoryFragment extends Fragment {
                 calcMonthBalance(histories);
                 checkStatus(StatusEnum.EXECUTADO);
             }
-
-            private void calcMonthBalance(List<History> histories) {
-                int totalWorkedHours = 0;
-                int totalBalance = 0;
-                for(History item : histories){
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(new Date(item.getDay()));
-                    Time time = app.mapTimes.get(calendar.get(Calendar.DAY_OF_WEEK));
-                    totalWorkedHours += item.getTotalDifferencesSecond();
-                    if(item.getTotalDifferencesSecond() != 0){
-                        totalBalance += time.getTotalDifferencesSecond();
-                    }
-                }
-                totalBalance -= totalWorkedHours;
-                updateValues(totalWorkedHours, totalBalance);
-            }
-
-            private void updateValues(int totalWorkedHours, int totalBalance) {
-                ui.totalHours.setText(DataUtil.transformSecondsInHourMinutes(totalWorkedHours));
-                ui.totalBalance.setText(DataUtil.transformSecondsInHourMinutes(Math.abs(totalBalance)));
-                if(totalBalance < 0){
-                    ui.totalBalance.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-                }else if(totalBalance > 0){
-                    ui.totalBalance.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-                }else if(totalBalance == 0){
-                    ui.totalBalance.setText(R.string.zero_hour);
-                    ui.totalBalance.setTextColor(getResources().getColor(R.color.second_text));
-                }
-                if(totalWorkedHours == 0){
-                    ui.totalHours.setText(R.string.zero_hour);
-                }
-            }
         };
+    }
+
+    private void calcMonthBalance(List<History> histories) {
+        int totalWorkedHours = 0;
+        int totalBalance = 0;
+        for(History item : histories){
+            Calendar calendar = Calendar.getInstance();
+            Date date = DataUtil.transformStringToDate("dd/MM/yyyy", item.getDay());
+            calendar.setTime(date);
+            Time time = app.mapTimes.get(calendar.get(Calendar.DAY_OF_WEEK));
+            totalWorkedHours += item.getTotalDifferencesSecond();
+            if(item.getTotalDifferencesSecond() != 0 && time.getTotalDifferencesSecond() != 0){
+                totalBalance += time.getTotalDifferencesSecond();
+                totalBalance -= item.getTotalDifferencesSecond();
+            }
+        }
+        updateValues(totalWorkedHours, totalBalance);
+    }
+
+    private void updateValues(int totalWorkedHours, int totalBalance) {
+        ui.totalHours.setText(DataUtil.transformSecondsInHourMinutes(totalWorkedHours));
+        ui.totalBalance.setText(DataUtil.transformSecondsInHourMinutes(Math.abs(totalBalance)));
+        if(totalBalance < 0){
+            ui.totalBalance.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        }else if(totalBalance > 0){
+            ui.totalBalance.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }else if(totalBalance == 0){
+            ui.totalBalance.setText(R.string.zero_hour);
+            ui.totalBalance.setTextColor(getResources().getColor(R.color.second_text));
+        }
+        if(totalWorkedHours == 0){
+            ui.totalHours.setText(R.string.zero_hour);
+        }
     }
 
     private View.OnClickListener onDateClickListener() {

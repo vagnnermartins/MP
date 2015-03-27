@@ -60,10 +60,12 @@
             android:layout_marginBottom="10dp"/>
 
         <LinearLayout
+            android:id="@+id/fragment_time_sheet_entrance_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -84,10 +86,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fragment_time_sheet_pause_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -108,10 +112,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fragment_time_sheet_back_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -132,10 +138,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fragment_time_sheet_quit_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="0dp"

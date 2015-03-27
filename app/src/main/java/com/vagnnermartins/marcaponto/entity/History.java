@@ -14,16 +14,22 @@ public class History {
 
     private long id;
     private String monthYear;
-    private long day;
+    private String day;
     private String entrance;
     private String pause;
     private String back;
     private String quit;
 
-    public void save(){
-        History qHistory = new History();
-        qHistory.setId(getId());
-        SingletonAdapter.getInstance().getAdapter().update(this, qHistory);
+    public void saveOrUpdate(){
+        if(getId() == 0){
+            Date date = DataUtil.transformStringToDate("dd/MM/yyyy", getDay());
+            setMonthYear(DataUtil.getMonthYear(date));
+            SingletonAdapter.getInstance().getAdapter().store(this);
+        }else{
+            History qHistory = new History();
+            qHistory.setId(getId());
+            SingletonAdapter.getInstance().getAdapter().update(this, qHistory);
+        }
     }
 
     public static List<History> findHistoryByMonthYear(String monthYear){
@@ -48,16 +54,12 @@ public class History {
         this.monthYear = monthYear;
     }
 
-    public long getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(long day) {
+    public void setDay(String day) {
         this.day = day;
-    }
-
-    public String getFormattedDay(){
-        return DataUtil.transformDateToSting(new Date(day), "dd/MM/yy");
     }
 
     public long getEntrance() {

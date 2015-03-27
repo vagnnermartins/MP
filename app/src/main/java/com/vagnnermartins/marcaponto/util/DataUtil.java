@@ -15,10 +15,14 @@ public class DataUtil {
 		return sdf.format(date);
 	}
 
-	public static Date transformStringToDate(String format, String date) throws ParseException {
+	public static Date transformStringToDate(String format, String date) {
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
-		return sdf.parse(date);
-	}
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            return new Date();
+        }
+    }
 
     public static String formatDateToString(Date time){
         StringBuilder sb = new StringBuilder();

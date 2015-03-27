@@ -21,6 +21,10 @@ public class TimeSheetUIHelper {
     public TextView back;
     public TextView quit;
     public View progress;
+    public View entranceMain;
+    public View pauseMain;
+    public View backMain;
+    public View quitMain;
 
     public TimeSheetUIHelper(View view){
         this.view = view;
@@ -32,5 +36,9 @@ public class TimeSheetUIHelper {
         this.back = (TextView) view.findViewById(R.id.fragment_time_sheet_back);
         this.quit = (TextView) view.findViewById(R.id.fragment_time_sheet_quit);
         this.progress = view.findViewById(R.id.fragment_time_sheet_progress);
+        this.entranceMain = view.findViewById(R.id.fragment_time_sheet_entrance_main);
+        this.pauseMain = view.findViewById(R.id.fragment_time_sheet_pause_main);
+        this.backMain = view.findViewById(R.id.fragment_time_sheet_back_main);
+        this.quitMain = view.findViewById(R.id.fragment_time_sheet_quit_main);
     }
 }

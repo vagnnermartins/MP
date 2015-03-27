@@ -36,15 +36,15 @@ public class FindHistoriesAsyncTask extends AsyncTask<Void, Void, List<History>>
         List<History> myHistories = History.findHistoryByMonthYear(DataUtil.getMonthYear(calendar.getTime()));
         Map<String, History> mapHistories = new HashMap<>();
         for(History item : myHistories){
-            mapHistories.put(item.getFormattedDay(), item);
+            mapHistories.put(item.getDay(), item);
         }
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         int totalDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 0 ; i < totalDays; i++){
-            History history = mapHistories.get(DataUtil.transformDateToSting(calendar.getTime(), "dd/MM/yy"));
+            History history = mapHistories.get(DataUtil.transformDateToSting(calendar.getTime(), "dd/MM/yyyy"));
             if(history == null){
                 history = new History();
-                history.setDay(calendar.getTime().getTime());
+                history.setDay(DataUtil.transformDateToSting(calendar.getTime(), "dd/MM/yyyy"));
                 history.setMonthYear(DataUtil.getMonthYear(calendar.getTime()));
             }
             result.add(history);
