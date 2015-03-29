@@ -62,7 +62,7 @@ public class HistoryFragment extends Fragment {
         loadDate();
     }
 
-    private void checkStatus(StatusEnum status){
+    public void checkStatus(StatusEnum status){
         if(status == StatusEnum.INICIO){
             FindHistoriesAsyncTask task = new FindHistoriesAsyncTask(onFindHistoryCallback(), app.dateHistory.getTime());
             task.execute();

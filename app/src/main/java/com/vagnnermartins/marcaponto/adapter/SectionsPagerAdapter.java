@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.vagnnermartins.marcaponto.app.App;
 import com.vagnnermartins.marcaponto.ui.fragment.HistoryFragment;
 import com.vagnnermartins.marcaponto.ui.fragment.SettingsFragment;
 import com.vagnnermartins.marcaponto.ui.fragment.TimeSheetFragment;
@@ -16,9 +17,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private static final int TOTAL_TAB = 3;
     private final Context context;
+    private final App app;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    public SectionsPagerAdapter(App app, Context context, FragmentManager fm) {
         super(fm);
+        this.app = app;
         this.context = context;
     }
 
@@ -31,6 +34,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 break;
             case HistoryFragment.POSITION:
                 fragment = Fragment.instantiate(context, HistoryFragment.class.getName());
+                app.historyFragment = (HistoryFragment) fragment;
                 break;
             case SettingsFragment.POSITION:
                 fragment = Fragment.instantiate(context, SettingsFragment.class.getName());

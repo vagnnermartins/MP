@@ -3,7 +3,6 @@ package com.vagnnermartins.marcaponto.ui.fragment;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -205,6 +204,7 @@ public class TimeSheetFragment extends Fragment {
             private void save() {
                 currentHistory.saveOrUpdate();
                 app.mapListHistories.put(currentHistory.getMonthYear(), null);
+                app.historyFragment.checkStatus(StatusEnum.INICIO);
             }
         };
     }
@@ -248,11 +248,7 @@ public class TimeSheetFragment extends Fragment {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 if(!cancel){
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
-                    calendar.set(Calendar.MINUTE, selectedMinute);
-                    calendar.set(Calendar.SECOND, 0);
-                    calendar.set(Calendar.MILLISECOND, 0);
+                    Calendar calendar = configDate(selectedHour, selectedMinute);
                     DecimalFormat format = new DecimalFormat("00");
                     selectedTime.setText(format.format(selectedHour) + ":" + format.format(selectedMinute));
                     switch (selectedTime.getId()){
@@ -269,8 +265,21 @@ public class TimeSheetFragment extends Fragment {
                             currentHistory.setQuit(calendar.getTime().getTime());
                             break;
                     }
-                    currentHistory.saveOrUpdate();
+                    currentHistory.saveOrUpdate();app.historyFragment.checkStatus(StatusEnum.INICIO);
+                    app.historyFragment.checkStatus(StatusEnum.INICIO);
                 }
+            }
+
+            private Calendar configDate(int selectedHour, int selectedMinute) {
+                Calendar selectedDay = Calendar.getInstance();
+                selectedDay.setTime(DataUtil.transformStringToDate("dd/MM/yyyy", currentHistory.getDay()));
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+                calendar.set(Calendar.MINUTE, selectedMinute);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                calendar.set(Calendar.DAY_OF_MONTH, selectedDay.get(Calendar.DAY_OF_MONTH));
+                return calendar;
             }
         };
     }
@@ -296,6 +305,7 @@ public class TimeSheetFragment extends Fragment {
                         break;
                 }
                 currentHistory.saveOrUpdate();
+                app.historyFragment.checkStatus(StatusEnum.INICIO);
             }
         };
     }

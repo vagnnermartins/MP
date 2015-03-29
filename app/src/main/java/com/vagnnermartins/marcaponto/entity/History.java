@@ -4,6 +4,7 @@ import com.codeslap.persistence.Constraint;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class History {
         if(getId() == 0){
             Date date = DataUtil.transformStringToDate("dd/MM/yyyy", getDay());
             setMonthYear(DataUtil.getMonthYear(date));
-            SingletonAdapter.getInstance().getAdapter().store(this);
+            setId((long) SingletonAdapter.getInstance().getAdapter().store(this));
         }else{
             History qHistory = new History();
             qHistory.setId(getId());
@@ -123,8 +124,15 @@ public class History {
     }
 
     public int getTotalDifferencesSecond(){
-        return (int) (DataUtil.differencesBetweenToDatesInSeconds(new Date(getPause()),new Date(getEntrance()))
-                + DataUtil.differencesBetweenToDatesInSeconds(new Date(getQuit()),new Date(getBack())));
+        int firstDifference = 0;
+        int secondDifference = 0;
+        if(getPause() != 0 && getEntrance() != 0){
+            firstDifference = (int) DataUtil.differencesBetweenToDatesInSeconds(new Date(getPause()), new Date(getEntrance()));
+        }
+        if(getQuit() != 0 && getBack() != 0){
+            secondDifference = (int) DataUtil.differencesBetweenToDatesInSeconds(new Date(getQuit()), new Date(getBack()));
+        }
+        return firstDifference + secondDifference;
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.adapter.SectionsPagerAdapter;
+import com.vagnnermartins.marcaponto.app.App;
 import com.vagnnermartins.marcaponto.ui.helper.MainUIHelper;
 
 
@@ -24,9 +25,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void init() {
+        App app = (App) getApplication();
         ui = new MainUIHelper(getWindow().getDecorView().findViewById(android.R.id.content));
         setSupportActionBar(ui.toolbar);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(app, this, getSupportFragmentManager());
         ui.viewPager.setAdapter(mSectionsPagerAdapter);
         ui.viewPager.setOnPageChangeListener(onPageChangeListener());
     }

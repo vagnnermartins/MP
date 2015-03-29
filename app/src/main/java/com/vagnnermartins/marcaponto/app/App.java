@@ -9,6 +9,7 @@ import com.vagnnermartins.marcaponto.db.Database;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
+import com.vagnnermartins.marcaponto.ui.fragment.HistoryFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +26,7 @@ public class App extends Application {
     public Map<String, List<History>> mapListHistories;
     public Map<Integer, Time> mapTimes;
     public Map<String, History> mapHistories;
+    public HistoryFragment historyFragment;
 
     private List<AsyncTask<?,?,?>> tasks;
 
