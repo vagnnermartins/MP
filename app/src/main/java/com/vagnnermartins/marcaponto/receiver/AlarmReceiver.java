@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
+import com.vagnnermartins.marcaponto.ui.activity.SplashScreenActivity;
 import com.vagnnermartins.marcaponto.ui.fragment.SettingsFragment;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 import com.vagnnermartins.marcaponto.util.SessionUtil;
@@ -37,9 +38,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                             .setContentText(message)
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                             .setDefaults(Notification.DEFAULT_ALL)
-                            .addAction(R.drawable.ic_clock, context.getString(R.string.time_clock_register), getPendingIntent(context, history,title));
+                            .setAutoCancel(true)
+                            .setContentIntent(getPendingIntent(context))
+                            .addAction(R.drawable.ic_clock, context.getString(R.string.time_clock_register), getActionPendingIntent(context, history, title));
             NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotifyMgr.notify((int) history.getId(), mBuilder.build());
+            Integer id = Integer.parseInt(history.getDay().replaceAll("[^0-9]", ""));
+            mNotifyMgr.notify(id, mBuilder.build());
         }
     }
 
@@ -76,12 +80,17 @@ public class AlarmReceiver extends BroadcastReceiver {
         return result;
     }
 
-    private PendingIntent getPendingIntent(Context context, History history, int title) {
+    private PendingIntent getActionPendingIntent(Context context, History history, int title) {
         Intent intent = new Intent(context, NotificationReceiver.class);
         intent.setAction(NotificationReceiver.ACTION_REGISTER);
         intent.putExtra(NotificationReceiver.HISTORY, history.getDay());
         intent.putExtra(NotificationReceiver.WHICH, title);
         return PendingIntent.getBroadcast(context, REQUEST_YES, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private PendingIntent getPendingIntent(Context context){
+        Intent intent = new Intent(context, SplashScreenActivity.class);
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private String getMessage(Context context, int title) {

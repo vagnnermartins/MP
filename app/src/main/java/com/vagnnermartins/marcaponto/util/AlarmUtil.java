@@ -1,6 +1,7 @@
 package com.vagnnermartins.marcaponto.util;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -81,5 +82,10 @@ public class AlarmUtil {
             }
             scheduleHistoryNotifications(context, result, times);
         }
+    }
+
+    public static void cancelNotification(Context context, int id){
+        NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifyMgr.cancel(id);
     }
 }

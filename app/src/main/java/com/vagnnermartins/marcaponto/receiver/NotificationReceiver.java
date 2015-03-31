@@ -3,10 +3,12 @@ package com.vagnnermartins.marcaponto.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
+import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
 import java.util.Calendar;
@@ -44,6 +46,9 @@ public class NotificationReceiver extends BroadcastReceiver {
                         break;
                 }
                 history.saveOrUpdate();
+                Toast.makeText(context, R.string.notification_message_success, Toast.LENGTH_LONG).show();
+                Integer id = Integer.parseInt(history.getDay().replaceAll("[^0-9]", ""));
+                AlarmUtil.cancelNotification(context, id);
             }
         }
     }

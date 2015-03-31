@@ -20,6 +20,7 @@ import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.enums.StatusEnum;
 import com.vagnnermartins.marcaponto.task.FindHistoryAsyncTask;
 import com.vagnnermartins.marcaponto.ui.helper.TimeSheetUIHelper;
+import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
 import java.text.DecimalFormat;
@@ -205,6 +206,7 @@ public class TimeSheetFragment extends Fragment {
                 currentHistory.saveOrUpdate();
                 app.mapListHistories.put(currentHistory.getMonthYear(), null);
                 app.historyFragment.checkStatus(StatusEnum.INICIO);
+                updateNotifications();
             }
         };
     }
@@ -265,8 +267,9 @@ public class TimeSheetFragment extends Fragment {
                             currentHistory.setQuit(calendar.getTime().getTime());
                             break;
                     }
-                    currentHistory.saveOrUpdate();app.historyFragment.checkStatus(StatusEnum.INICIO);
+                    currentHistory.saveOrUpdate();
                     app.historyFragment.checkStatus(StatusEnum.INICIO);
+                    updateNotifications();
                 }
             }
 
@@ -306,8 +309,15 @@ public class TimeSheetFragment extends Fragment {
                 }
                 currentHistory.saveOrUpdate();
                 app.historyFragment.checkStatus(StatusEnum.INICIO);
+                updateNotifications();
             }
         };
+    }
+
+    private void updateNotifications() {
+        Integer id = Integer.parseInt(currentHistory.getDay().replaceAll("[^0-9]", ""));
+        AlarmUtil.cancelNotification(getActivity(), id);
+        AlarmUtil.scheduleAllNotification(getActivity());
     }
 
     private DialogInterface.OnClickListener onCancelClickListener() {

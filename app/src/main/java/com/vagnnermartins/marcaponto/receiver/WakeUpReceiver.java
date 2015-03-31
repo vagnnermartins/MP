@@ -24,9 +24,6 @@ public class WakeUpReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-//        if(SessionUtil.getValue(context, SettingsFragment.NOTIFICATION)){
-//            List<Time> times = SingletonAdapter.getInstance(context).getAdapter().findAll(Time.class);
-//            AlarmUtil.scheduleNotifications(context, times);
-//        }
+        AlarmUtil.scheduleAllNotification(context);
     }
 }
