@@ -4,6 +4,7 @@ import com.codeslap.persistence.Constraint;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by vagnnermartins on 24/03/15.
  */
-public class History {
+public class History implements Serializable{
 
     private long id;
     private String monthYear;
@@ -25,7 +26,8 @@ public class History {
         if(getId() == 0){
             Date date = DataUtil.transformStringToDate("dd/MM/yyyy", getDay());
             setMonthYear(DataUtil.getMonthYear(date));
-            setId((long) SingletonAdapter.getInstance().getAdapter().store(this));
+            long newId = (long) SingletonAdapter.getInstance().getAdapter().store(this);
+            setId(newId);
         }else{
             History qHistory = new History();
             qHistory.setId(getId());

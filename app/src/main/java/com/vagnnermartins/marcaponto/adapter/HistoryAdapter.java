@@ -11,6 +11,7 @@ import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,7 +48,8 @@ public class HistoryAdapter extends ArrayAdapter<History> {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(DataUtil.transformStringToDate("dd/MM/yyyy", item.getDay()));
         holder.day.setText(DataUtil.getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)));
-        holder.date.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        DecimalFormat format = new DecimalFormat("00");
+        holder.date.setText(format.format(calendar.get(Calendar.DAY_OF_MONTH)));
         holder.totalHour.setText(DataUtil.transformSecondsInHourMinutes(item.getTotalDifferencesSecond()));
         holder.entrance.setText(item.getFormattedEntrance());
         holder.pause.setText(item.getFormattedPause());

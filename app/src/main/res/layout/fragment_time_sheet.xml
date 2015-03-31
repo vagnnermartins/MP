@@ -14,153 +14,176 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <LinearLayout
-            android:id="@+id/fragment_time_sheet_time_main"
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-            <AnalogClock
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3" />
+            android:layout_gravity="center"
+            card_view:cardCornerRadius="4dp">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="7"
-                android:orientation="vertical">
+                android:id="@+id/fragment_time_sheet_time_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-                <TextView
-                    android:id="@+id/fragment_time_sheet_date"
-                    android:layout_width="match_parent"
+                <AnalogClock
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Quarta-feira, 23 de Janeiro de 2015"
-                    android:textSize="18sp" />
+                    android:layout_weight="3" />
 
-                <DigitalClock
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="39sp"
-                    android:textColor="?attr/colorAccent" />
+                    android:layout_weight="7"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/fragment_time_sheet_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Quarta-feira, 23 de Janeiro de 2015"
+                        android:textColor="?attr/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <DigitalClock
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="?attr/colorAccent"
+                        android:textSize="39sp" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/fragment_time_sheet_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:textColor="?attr/colorPrimary"
-            android:text="@string/time_clock_register"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:text="@string/time_clock_register"
+            android:textColor="?attr/colorPrimary" />
+
 
         <LinearLayout
-            android:id="@+id/fragment_time_sheet_entrance_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:padding="5dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/fragment_time_sheet_entrance_main"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="right"
-                android:text="Entrada:"
-                android:textSize="18sp"/>
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:weightSum="10">
 
-            <TextView
-                android:id="@+id/fragment_time_sheet_entrance"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="right"
+                    android:text="@string/entrance"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/fragment_time_sheet_entrance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_weight="5"
+                    android:text="@string/no_hour"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_time_sheet_pause_main"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_weight="5"
-                android:text="@string/no_hour"
-                android:textSize="22sp"/>
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:weightSum="10">
 
-        <LinearLayout
-            android:id="@+id/fragment_time_sheet_pause_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:padding="5dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="right"
+                    android:text="@string/pause"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/fragment_time_sheet_pause"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_weight="5"
+                    android:text="@string/no_hour"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_time_sheet_back_main"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="right"
-                android:text="Saída Intervalo:"
-                android:textSize="18sp"/>
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:weightSum="10">
 
-            <TextView
-                android:id="@+id/fragment_time_sheet_pause"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="right"
+                    android:text="@string/back"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/fragment_time_sheet_back"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_weight="5"
+                    android:text="@string/no_hour"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_time_sheet_quit_main"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_weight="5"
-                android:text="@string/no_hour"
-                android:textSize="22sp"/>
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:weightSum="10">
 
-        <LinearLayout
-            android:id="@+id/fragment_time_sheet_back_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:padding="5dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="right"
+                    android:text="@string/quit"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="right"
-                android:text="Retorno:"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/fragment_time_sheet_back"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_weight="5"
-                android:text="@string/no_hour"
-                android:textSize="22sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/fragment_time_sheet_quit_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="right"
-                android:text="Saída:"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/fragment_time_sheet_quit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_weight="5"
-                android:text="@string/no_hour"
-                android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/fragment_time_sheet_quit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_weight="5"
+                    android:text="@string/no_hour"
+                    android:textSize="22sp" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
@@ -169,9 +192,9 @@
         android:id="@+id/fragment_time_sheet_progress"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@color/accent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:visibility="gone"/>
+        android:background="@color/accent"
+        android:visibility="gone" />
 
 </RelativeLayout>

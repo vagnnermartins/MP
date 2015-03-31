@@ -1,9 +1,8 @@
 package com.vagnnermartins.marcaponto.ui.helper;
 
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CheckBox;
 
-import com.gc.materialdesign.views.CheckBox;
 import com.vagnnermartins.marcaponto.R;
 
 /**
@@ -21,16 +20,6 @@ public class SettingsUIHelper {
         this.hours = view.findViewById(R.id.fragment_settings_hours);
         this.checkBox = (CheckBox) view.findViewById(R.id.fragment_settings_notification);
         this.checkBoxMain = view.findViewById(R.id.fragment_settings_notification_main);
-        this.checkBoxMain.setOnClickListener(onCheckBoxMainClickListener());
-    }
-
-    private View.OnClickListener onCheckBoxMainClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkBox.setChecked(!checkBox.isCheck());
-            }
-        };
     }
 
 }
