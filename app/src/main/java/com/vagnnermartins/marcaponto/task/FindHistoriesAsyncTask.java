@@ -1,5 +1,7 @@
 package com.vagnnermartins.marcaponto.task;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 
 import com.vagnnermartins.marcaponto.callback.Callback;
@@ -23,8 +25,10 @@ public class FindHistoriesAsyncTask extends AsyncTask<Void, Void, List<History>>
 
     private final Calendar calendar;
     private final Callback callback;
+    private final Context context;
 
-    public FindHistoriesAsyncTask(Callback callback, Date date){
+    public FindHistoriesAsyncTask(Context context, Callback callback, Date date){
+        this.context = context;
         this.callback = callback;
         this.calendar = Calendar.getInstance();
         this.calendar.setTime(date);
@@ -33,7 +37,8 @@ public class FindHistoriesAsyncTask extends AsyncTask<Void, Void, List<History>>
     @Override
     protected List<History> doInBackground(Void... voids) {
         List<History> result = new ArrayList<>();
-        List<History> myHistories = History.findHistoryByMonthYear(DataUtil.getMonthYear(calendar.getTime()));
+        Resources res = context.getResources();
+        List<History> myHistories = History.findHistoryByMonthYear(DataUtil.getMonthYear(calendar.getTime(), res));
         Map<String, History> mapHistories = new HashMap<>();
         for(History item : myHistories){
             mapHistories.put(item.getDay(), item);
@@ -45,7 +50,7 @@ public class FindHistoriesAsyncTask extends AsyncTask<Void, Void, List<History>>
             if(history == null){
                 history = new History();
                 history.setDay(DataUtil.transformDateToSting(calendar.getTime(), "dd/MM/yyyy"));
-                history.setMonthYear(DataUtil.getMonthYear(calendar.getTime()));
+                history.setMonthYear(DataUtil.getMonthYear(calendar.getTime(), res));
             }
             result.add(history);
             calendar.add(Calendar.DAY_OF_MONTH, 1);

@@ -36,7 +36,7 @@ public class TimeAdapter extends ArrayAdapter<Time> {
             holder = (ViewHolder) convertView.getTag();
         }
         Time item = getItem(position);
-        holder.day.setText(DataUtil.getDayOfWeek(item.getId()));
+        holder.day.setText(DataUtil.getDayOfWeek(item.getId(), getContext().getResources()));
         holder.entrance.setText(item.getFormattedEntrance());
         holder.pause.setText(item.getFormattedPause());
         holder.back.setText(item.getFormattedBack());

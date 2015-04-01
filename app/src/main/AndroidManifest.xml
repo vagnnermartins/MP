@@ -19,7 +19,7 @@
         </activity>
         <activity
             android:name=".ui.activity.TimesActivity"
-            android:label="@string/title_activity_times" >
+            android:label="@string/fragment_settings_hours" >
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"

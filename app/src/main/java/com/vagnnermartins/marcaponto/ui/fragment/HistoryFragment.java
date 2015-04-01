@@ -46,7 +46,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void checkUpdate() {
-        if(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())) == null){
+        if(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources())) == null){
             checkStatus(StatusEnum.INICIO);
         }else{
             loadValues();
@@ -64,7 +64,7 @@ public class HistoryFragment extends Fragment {
 
     public void checkStatus(StatusEnum status){
         if(status == StatusEnum.INICIO){
-            FindHistoriesAsyncTask task = new FindHistoriesAsyncTask(onFindHistoryCallback(), app.dateHistory.getTime());
+            FindHistoriesAsyncTask task = new FindHistoriesAsyncTask(getActivity(), onFindHistoryCallback(), app.dateHistory.getTime());
             task.execute();
             app.registerTask(task);
             checkStatus(StatusEnum.EXECUTANDO);
@@ -92,15 +92,15 @@ public class HistoryFragment extends Fragment {
     }
 
     private void loadDate(){
-        ui.date.setText(DataUtil.getMonthYear(app.dateHistory.getTime()));
+        ui.date.setText(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources()));
     }
 
     private void loadValues(){
         ui.list.setAdapter(new HistoryAdapter(getActivity(),
                 R.layout.item_history,
-                app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())),
+                app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources())),
                 app.mapTimes));
-        calcMonthBalance(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())));
+        calcMonthBalance(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources())));
     }
 
     private Callback onFindHistoryCallback() {
@@ -108,7 +108,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onReturn(Exception error, Object... objects) {
                 List<History> histories = (List<History>) objects[0];
-                app.mapListHistories.put(DataUtil.getMonthYear(app.dateHistory.getTime()), histories);
+                app.mapListHistories.put(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources()), histories);
                 loadValues();
                 calcMonthBalance(histories);
                 checkStatus(StatusEnum.EXECUTADO);

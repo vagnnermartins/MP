@@ -12,9 +12,7 @@ import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +45,7 @@ public class HistoryAdapter extends ArrayAdapter<History> {
         History item = getItem(position);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(DataUtil.transformStringToDate("dd/MM/yyyy", item.getDay()));
-        holder.day.setText(DataUtil.getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)));
+        holder.day.setText(DataUtil.getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK), getContext().getResources()));
         DecimalFormat format = new DecimalFormat("00");
         holder.date.setText(format.format(calendar.get(Calendar.DAY_OF_MONTH)));
         holder.totalHour.setText(DataUtil.transformSecondsInHourMinutes(item.getTotalDifferencesSecond()));

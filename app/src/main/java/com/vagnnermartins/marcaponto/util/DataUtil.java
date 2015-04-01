@@ -1,6 +1,9 @@
 package com.vagnnermartins.marcaponto.util;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
+
+import com.vagnnermartins.marcaponto.R;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -24,21 +27,61 @@ public class DataUtil {
         }
     }
 
-    public static String formatDateToString(Date time){
+    public static String formatDateToString(Date time, Resources res){
+        String result = "";
+        if(res.getConfiguration().locale.getLanguage().equals("pt")){
+            result = getPtDateToString(time, res);
+        }else if(res.getConfiguration().locale.getLanguage().equals("es")){
+            result = getEsDateToString(time, res);
+        }else{
+            result = getDefaultDateToString(time, res);
+        }
+        return result;
+    }
+
+    private static String getPtDateToString(Date time, Resources res){
         StringBuilder sb = new StringBuilder();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
-        sb.append(checkDay(calendar));
+        sb.append(checkDay(calendar, res));
         sb.append(", ");
         sb.append(calendar.get(Calendar.DAY_OF_MONTH));
         sb.append(" de ");
-        sb.append(getMonth(calendar.get(Calendar.MONTH)));
+        sb.append(getMonth(calendar.get(Calendar.MONTH), res));
         sb.append(" de ");
         sb.append(calendar.get(Calendar.YEAR));
         return sb.toString();
     }
 
-    private static String checkDay(Calendar calendar) {
+    private static String getDefaultDateToString(Date time, Resources res){
+        StringBuilder sb = new StringBuilder();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
+        sb.append(checkDay(calendar, res));
+        sb.append(", ");
+        sb.append(getMonth(calendar.get(Calendar.MONTH), res));
+        sb.append(" ");
+        sb.append(calendar.get(Calendar.DAY_OF_MONTH));
+        sb.append(", ");
+        sb.append(calendar.get(Calendar.YEAR));
+        return sb.toString();
+    }
+
+    private static String getEsDateToString(Date time, Resources res){
+        StringBuilder sb = new StringBuilder();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
+        sb.append(checkDay(calendar, res));
+        sb.append(", ");
+        sb.append(calendar.get(Calendar.DAY_OF_MONTH));
+        sb.append(" de ");
+        sb.append(getMonth(calendar.get(Calendar.MONTH), res));
+        sb.append(" ");
+        sb.append(calendar.get(Calendar.YEAR));
+        return sb.toString();
+    }
+
+    private static String checkDay(Calendar calendar, Resources res) {
         String result = "";
         Calendar today = Calendar.getInstance();
         Calendar tomorrow = Calendar.getInstance();
@@ -48,17 +91,17 @@ public class DataUtil {
         if(today.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
                 today.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
                 today.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)){
-            result = "Hoje";
+            result = res.getString(R.string.today);
         }else if(tomorrow.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
                 tomorrow.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
                 tomorrow.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)){
-            result = "Amanhã";
+            result = res.getString(R.string.tomorrow);
         }else if(yesterday.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
                 yesterday.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
                 yesterday.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)){
-            result = "Ontem";
+            result = res.getString(R.string.yesterday);
         }else{
-            result = getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK));
+            result = getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK), res);
         }
         return result;
     }
@@ -79,10 +122,10 @@ public class DataUtil {
         return  calendar.getTime();
     }
 
-    public static String getMonthYear(Date date){
+    public static String getMonthYear(Date date, Resources res){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        String formattedDate = DataUtil.getMonth(calendar.get(Calendar.MONTH));
+        String formattedDate = DataUtil.getMonth(calendar.get(Calendar.MONTH), res);
         formattedDate += " / ";
         formattedDate += DataUtil.transformDateToSting(calendar.getTime(), "yyyy");
         return formattedDate;
@@ -114,72 +157,72 @@ public class DataUtil {
         return result;
     }
 
-    public static String getMonth(int month){
+    public static String getMonth(int month, Resources res){
         String retorno;
         switch (month) {
             case Calendar.JANUARY:
-                retorno = "Janeiro";
+                retorno = res.getString(R.string.january);
                 break;
             case Calendar.FEBRUARY:
-                retorno = "Fevereiro";
+                retorno = res.getString(R.string.february);
                 break;
             case Calendar.MARCH:
-                retorno = "Março";
+                retorno = res.getString(R.string.march);
                 break;
             case Calendar.APRIL:
-                retorno = "Abril";
+                retorno = res.getString(R.string.april);
                 break;
             case Calendar.MAY:
-                retorno = "Maio";
+                retorno = res.getString(R.string.may);
                 break;
             case Calendar.JUNE:
-                retorno = "Junho";
+                retorno = res.getString(R.string.june);
                 break;
             case Calendar.JULY:
-                retorno = "Julho";
+                retorno = res.getString(R.string.july);
                 break;
             case Calendar.AUGUST:
-                retorno = "Agosto";
+                retorno = res.getString(R.string.august);
                 break;
             case Calendar.SEPTEMBER:
-                retorno = "Setembro";
+                retorno = res.getString(R.string.september);
                 break;
             case Calendar.OCTOBER:
-                retorno = "Outubro";
+                retorno = res.getString(R.string.october);
                 break;
             case Calendar.NOVEMBER:
-                retorno = "Novembro";
+                retorno = res.getString(R.string.november);
                 break;
             default:
-                retorno = "Dezembro";
+                retorno = res.getString(R.string.december);
                 break;
         }
         return retorno;
     }
 
-	public static String getDayOfWeek(int dia){
+	public static String getDayOfWeek(int dia, Resources res){
 		String retorno;
 		switch (dia) {
 		case Calendar.SUNDAY:
-			retorno = "Dom";
+			retorno = res.getString(R.string.sunday);
 			break;
 		case Calendar.MONDAY:
-			retorno = "Seg";
+            retorno = res.getString(R.string.monday);
 			break;
 		case Calendar.TUESDAY:
-			retorno = "Ter";
+            retorno = res.getString(R.string.tuesday);
 			break;
 		case Calendar.WEDNESDAY:
-			retorno = "Qua";
+            retorno = res.getString(R.string.wednesday);
 			break;
 		case Calendar.THURSDAY:
-			retorno = "Qui";
+            retorno = res.getString(R.string.thursday);
 			break;
 		case Calendar.FRIDAY:
-			retorno = "Sex";
+            retorno = res.getString(R.string.friday);
 			break;
 		default:
-			retorno = "Sáb";
+            retorno = res.getString(R.string.saturday);
 			break;
 		}
 		return retorno;

@@ -4,7 +4,6 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +51,7 @@ public class TimesActivity extends ActionBarActivity {
         List<Time> times = new ArrayList<>(app.mapTimes.values());
         for(Time time : times){
             View itemView = getLayoutInflater().inflate(R.layout.item_time, null);
-            setValue(itemView, R.id.item_time_day, DataUtil.getDayOfWeek(time.getId()), null);
+            setValue(itemView, R.id.item_time_day, DataUtil.getDayOfWeek(time.getId(), getResources()), null);
             setValue(itemView, R.id.item_time_entrance, time.getFormattedEntrance(), onEntranceClickListener());
             setValue(itemView, R.id.item_time_pause, time.getFormattedPause(), onPauseClickListener());
             setValue(itemView, R.id.item_time_back, time.getFormattedBack(), onBackClickListener());
@@ -218,19 +217,10 @@ public class TimesActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_times, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
                 finish();
-                break;
-            case R.id.menu_times_clear:
-
                 break;
         }
 

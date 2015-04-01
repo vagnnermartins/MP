@@ -87,14 +87,14 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="Carga Horária" />
+                android:text="@string/hours" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Saldo" />
+                android:text="@string/balance" />
         </LinearLayout>
     </LinearLayout>
 

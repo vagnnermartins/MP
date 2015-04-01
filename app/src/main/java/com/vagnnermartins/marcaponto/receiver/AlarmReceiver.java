@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v4.app.NotificationCompat;
 
 import com.vagnnermartins.marcaponto.R;
@@ -26,7 +27,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        History history = findHistory(intent);
+        History history = findHistory(intent, context.getResources());
         int title = intent.getIntExtra(TITLE, 0);
         if (SessionUtil.getValue(context, SettingsFragment.NOTIFICATION) &&
                 emptyHistory(history, title)) {
@@ -40,14 +41,14 @@ public class AlarmReceiver extends BroadcastReceiver {
                             .setDefaults(Notification.DEFAULT_ALL)
                             .setAutoCancel(true)
                             .setContentIntent(getPendingIntent(context))
-                            .addAction(R.drawable.ic_clock, context.getString(R.string.time_clock_register), getActionPendingIntent(context, history, title));
+                            .addAction(R.mipmap.ic_clock, context.getString(R.string.time_clock_register), getActionPendingIntent(context, history, title));
             NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Integer id = Integer.parseInt(history.getDay().replaceAll("[^0-9]", ""));
             mNotifyMgr.notify(id, mBuilder.build());
         }
     }
 
-    private History findHistory(Intent intent){
+    private History findHistory(Intent intent, Resources res){
         String day = intent.getStringExtra(HISTORY);
         History qHistory = new History();
         qHistory.setDay(day);
@@ -56,7 +57,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             qHistory = new History();
             Date date = DataUtil.transformStringToDate("dd/MM/yyyy", day);
             qHistory.setDay(day);
-            qHistory.setMonthYear(DataUtil.getMonthYear(date));
+            qHistory.setMonthYear(DataUtil.getMonthYear(date, res));
         }
         return qHistory;
     }

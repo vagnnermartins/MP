@@ -1,5 +1,7 @@
 package com.vagnnermartins.marcaponto.entity;
 
+import android.content.res.Resources;
+
 import com.codeslap.persistence.Constraint;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
 import com.vagnnermartins.marcaponto.util.DataUtil;
@@ -22,10 +24,10 @@ public class History implements Serializable{
     private String back;
     private String quit;
 
-    public void saveOrUpdate(){
+    public void saveOrUpdate(Resources res){
         if(getId() == 0){
             Date date = DataUtil.transformStringToDate("dd/MM/yyyy", getDay());
-            setMonthYear(DataUtil.getMonthYear(date));
+            setMonthYear(DataUtil.getMonthYear(date, res));
             long newId = (long) SingletonAdapter.getInstance().getAdapter().store(this);
             setId(newId);
         }else{

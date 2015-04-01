@@ -51,7 +51,7 @@ public class TimeSheetFragment extends Fragment {
     }
 
     private void checkUpdate() {
-        if(app.mapHistories.get(DataUtil.getMonthYear(selectedDay.getTime())) == null){
+        if(app.mapHistories.get(DataUtil.getMonthYear(selectedDay.getTime(), getResources())) == null){
             checkStatus(StatusEnum.INICIO);
         }else{
             loadValues();
@@ -61,7 +61,7 @@ public class TimeSheetFragment extends Fragment {
     private void init() {
         selectedDay = Calendar.getInstance();
         app = (App) getActivity().getApplication();
-        ui.date.setText(DataUtil.formatDateToString(selectedDay.getTime()));
+        ui.date.setText(DataUtil.formatDateToString(selectedDay.getTime(), getResources()));
         ui.register.setOnClickListener(onRegisterClickListener());
         ui.entranceMain.setOnClickListener(onTimesClickListener());
         ui.pauseMain.setOnClickListener(onTimesClickListener());
@@ -203,7 +203,7 @@ public class TimeSheetFragment extends Fragment {
             }
 
             private void save() {
-                currentHistory.saveOrUpdate();
+                currentHistory.saveOrUpdate(getResources());
                 app.mapListHistories.put(currentHistory.getMonthYear(), null);
                 app.historyFragment.checkStatus(StatusEnum.INICIO);
                 updateNotifications();
@@ -228,7 +228,7 @@ public class TimeSheetFragment extends Fragment {
                         selectedDay.set(Calendar.YEAR, year);
                         selectedDay.set(Calendar.MONTH, month);
                         selectedDay.set(Calendar.DAY_OF_MONTH, day);
-                        ui.date.setText(DataUtil.formatDateToString(selectedDay.getTime()));
+                        ui.date.setText(DataUtil.formatDateToString(selectedDay.getTime(), getResources()));
                         checkUpdate();
                     }
                 };
@@ -267,7 +267,7 @@ public class TimeSheetFragment extends Fragment {
                             currentHistory.setQuit(calendar.getTime().getTime());
                             break;
                     }
-                    currentHistory.saveOrUpdate();
+                    currentHistory.saveOrUpdate(getResources());
                     app.historyFragment.checkStatus(StatusEnum.INICIO);
                     updateNotifications();
                 }
@@ -307,7 +307,7 @@ public class TimeSheetFragment extends Fragment {
                         currentHistory.setQuit(0);
                         break;
                 }
-                currentHistory.saveOrUpdate();
+                currentHistory.saveOrUpdate(getResources());
                 app.historyFragment.checkStatus(StatusEnum.INICIO);
                 updateNotifications();
             }
