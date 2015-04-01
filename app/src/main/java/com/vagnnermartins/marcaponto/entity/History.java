@@ -24,10 +24,10 @@ public class History implements Serializable{
     private String back;
     private String quit;
 
-    public void saveOrUpdate(Resources res){
+    public void saveOrUpdate(){
         if(getId() == 0){
             Date date = DataUtil.transformStringToDate("dd/MM/yyyy", getDay());
-            setMonthYear(DataUtil.getMonthYear(date, res));
+            setMonthYear(DataUtil.getMonthYear(date));
             long newId = (long) SingletonAdapter.getInstance().getAdapter().store(this);
             setId(newId);
         }else{

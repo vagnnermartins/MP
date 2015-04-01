@@ -4,5 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    app:theme="@style/ToolBarStyle"
+    app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     app:titleTextAppearance="@style/AppTheme.Toolbar.Title"/>

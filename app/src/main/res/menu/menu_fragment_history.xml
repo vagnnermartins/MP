@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.vagnnermartins.adbelem.ui.activity.ChurchDetailActivity">
+
+    <item
+        android:id="@+id/menu_history_save"
+        android:orderInCategory="100"
+        android:title="@string/csv"
+        android:checkable="true"
+        app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_save"/>
+
+    <item
+        android:id="@+id/menu_history_share"
+        android:orderInCategory="100"
+        android:title="@string/share"
+        android:checkable="true"
+        app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_share"/>
+
+</menu>

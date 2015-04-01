@@ -51,9 +51,9 @@ public class TimeSheetFragment extends Fragment {
     }
 
     private void checkUpdate() {
-        if(app.mapHistories.get(DataUtil.getMonthYear(selectedDay.getTime(), getResources())) == null){
+        if (app.mapHistories.get(DataUtil.getMonthYear(selectedDay.getTime())) == null) {
             checkStatus(StatusEnum.INICIO);
-        }else{
+        } else {
             loadValues();
         }
     }
@@ -70,16 +70,16 @@ public class TimeSheetFragment extends Fragment {
         ui.timeMain.setOnClickListener(onTimeClickListener());
     }
 
-    private void checkStatus(StatusEnum status){
-        if(status == StatusEnum.INICIO){
+    private void checkStatus(StatusEnum status) {
+        if (status == StatusEnum.INICIO) {
             FindHistoryAsyncTask task = new FindHistoryAsyncTask(onFindHistoryCallback(),
                     DataUtil.transformDateToSting(selectedDay.getTime(), "dd/MM/yyyy"));
             task.execute();
             app.registerTask(task);
-        }else if(status == StatusEnum.EXECUTANDO){
+        } else if (status == StatusEnum.EXECUTANDO) {
             ui.progress.setVisibility(View.VISIBLE);
             ui.register.setEnabled(false);
-        }else if(status == StatusEnum.EXECUTADO){
+        } else if (status == StatusEnum.EXECUTADO) {
             ui.progress.setVisibility(View.GONE);
             ui.register.setEnabled(true);
         }
@@ -98,7 +98,7 @@ public class TimeSheetFragment extends Fragment {
             @Override
             public void onReturn(Exception error, Object... objects) {
                 currentHistory = (History) objects[0];
-                if(currentHistory == null){
+                if (currentHistory == null) {
                     currentHistory = new History();
                     currentHistory.setDay(DataUtil.transformDateToSting(selectedDay.getTime(), "dd/MM/yyyy"));
                 }
@@ -114,7 +114,7 @@ public class TimeSheetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.fragment_time_sheet_entrance_main:
                         onEntranceClickListener(calendar);
                         break;
@@ -131,10 +131,10 @@ public class TimeSheetFragment extends Fragment {
             }
 
             private void onQuitClickListener(Calendar calendar) {
-                if(currentHistory.getFormattedQuit().equals("--:--")){
+                if (currentHistory.getFormattedQuit().equals("--:--")) {
                     calendar.set(Calendar.HOUR_OF_DAY, 0);
                     calendar.set(Calendar.MINUTE, 0);
-                }else{
+                } else {
                     calendar.setTime(new Date(currentHistory.getQuit()));
                 }
                 showTimePicker(R.string.quit, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
@@ -142,10 +142,10 @@ public class TimeSheetFragment extends Fragment {
             }
 
             private void onBackClickListener(Calendar calendar) {
-                if(currentHistory.getFormattedBack().equals("--:--")){
+                if (currentHistory.getFormattedBack().equals("--:--")) {
                     calendar.set(Calendar.HOUR_OF_DAY, 0);
                     calendar.set(Calendar.MINUTE, 0);
-                }else{
+                } else {
                     calendar.setTime(new Date(currentHistory.getBack()));
                 }
                 showTimePicker(R.string.back, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
@@ -153,10 +153,10 @@ public class TimeSheetFragment extends Fragment {
             }
 
             private void onPauseClickListener(Calendar calendar) {
-                if(currentHistory.getFormattedPause().equals("--:--")){
+                if (currentHistory.getFormattedPause().equals("--:--")) {
                     calendar.set(Calendar.HOUR_OF_DAY, 0);
                     calendar.set(Calendar.MINUTE, 0);
-                }else{
+                } else {
                     calendar.setTime(new Date(currentHistory.getPause()));
                 }
                 showTimePicker(R.string.pause, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
@@ -164,10 +164,10 @@ public class TimeSheetFragment extends Fragment {
             }
 
             private void onEntranceClickListener(Calendar calendar) {
-                if(currentHistory.getFormattedEntrance().equals("--:--")){
+                if (currentHistory.getFormattedEntrance().equals("--:--")) {
                     calendar.set(Calendar.HOUR_OF_DAY, 0);
                     calendar.set(Calendar.MINUTE, 0);
-                }else{
+                } else {
                     calendar.setTime(new Date(currentHistory.getEntrance()));
                 }
                 showTimePicker(R.string.entrance, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
@@ -183,19 +183,19 @@ public class TimeSheetFragment extends Fragment {
                 Calendar now = Calendar.getInstance();
                 now.set(Calendar.SECOND, 0);
                 now.set(Calendar.MILLISECOND, 0);
-                if(currentHistory.getEntrance() == 0){
+                if (currentHistory.getEntrance() == 0) {
                     currentHistory.setEntrance(now.getTime().getTime());
                     ui.entrance.setText(currentHistory.getFormattedEntrance());
                     save();
-                }else if(currentHistory.getPause() == 0){
+                } else if (currentHistory.getPause() == 0) {
                     currentHistory.setPause(now.getTime().getTime());
                     ui.pause.setText(currentHistory.getFormattedPause());
                     save();
-                }else if(currentHistory.getBack() == 0){
+                } else if (currentHistory.getBack() == 0) {
                     currentHistory.setBack(now.getTime().getTime());
                     ui.back.setText(currentHistory.getFormattedBack());
                     save();
-                }else if(currentHistory.getQuit() == 0){
+                } else if (currentHistory.getQuit() == 0) {
                     currentHistory.setQuit(now.getTime().getTime());
                     ui.quit.setText(currentHistory.getFormattedQuit());
                     save();
@@ -203,7 +203,7 @@ public class TimeSheetFragment extends Fragment {
             }
 
             private void save() {
-                currentHistory.saveOrUpdate(getResources());
+                currentHistory.saveOrUpdate();
                 app.mapListHistories.put(currentHistory.getMonthYear(), null);
                 app.historyFragment.checkStatus(StatusEnum.INICIO);
                 updateNotifications();
@@ -236,7 +236,7 @@ public class TimeSheetFragment extends Fragment {
         };
     }
 
-    private void showTimePicker(int title, int hour, int minute){
+    private void showTimePicker(int title, int hour, int minute) {
         TimePickerDialog dialog = new TimePickerDialog(getActivity(), onTimeSetListener(), hour, minute, true);
         dialog.setTitle(title);
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(android.R.string.cancel), onCancelClickListener());
@@ -249,11 +249,11 @@ public class TimeSheetFragment extends Fragment {
         return new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                if(!cancel){
+                if (!cancel) {
                     Calendar calendar = configDate(selectedHour, selectedMinute);
                     DecimalFormat format = new DecimalFormat("00");
                     selectedTime.setText(format.format(selectedHour) + ":" + format.format(selectedMinute));
-                    switch (selectedTime.getId()){
+                    switch (selectedTime.getId()) {
                         case R.id.fragment_time_sheet_entrance:
                             currentHistory.setEntrance(calendar.getTime().getTime());
                             break;
@@ -267,7 +267,7 @@ public class TimeSheetFragment extends Fragment {
                             currentHistory.setQuit(calendar.getTime().getTime());
                             break;
                     }
-                    currentHistory.saveOrUpdate(getResources());
+                    currentHistory.saveOrUpdate();
                     app.historyFragment.checkStatus(StatusEnum.INICIO);
                     updateNotifications();
                 }
@@ -293,7 +293,7 @@ public class TimeSheetFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 cancel = true;
                 selectedTime.setText(R.string.no_hour);
-                switch (selectedTime.getId()){
+                switch (selectedTime.getId()) {
                     case R.id.fragment_time_sheet_entrance:
                         currentHistory.setEntrance(0);
                         break;
@@ -307,7 +307,7 @@ public class TimeSheetFragment extends Fragment {
                         currentHistory.setQuit(0);
                         break;
                 }
-                currentHistory.saveOrUpdate(getResources());
+                currentHistory.saveOrUpdate();
                 app.historyFragment.checkStatus(StatusEnum.INICIO);
                 updateNotifications();
             }

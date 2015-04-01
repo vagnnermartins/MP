@@ -29,6 +29,7 @@
     <string name="total">TOTAL</string>
     <string name="balance">Saldo</string>
     <string name="hours">Carga Horária</string>
+    <string name="share">Compartilhar</string>
 
     <string name="january">Janeiro</string>
     <string name="february">Fevereiro</string>
@@ -45,11 +46,12 @@
     <string name="today">Hoje</string>
     <string name="yesterday">Ontem</string>
     <string name="tomorrow">Amanhã</string>
-    <string name="sunday">Domingo</string>
+    <string name="sunday">Dom</string>
     <string name="monday">Seg</string>
     <string name="tuesday">Ter</string>
     <string name="wednesday">Qua</string>
     <string name="thursday">Qui</string>
     <string name="friday">Sex</string>
     <string name="saturday">Sáb</string>
+    <string name="date">Data</string>
 </resources>

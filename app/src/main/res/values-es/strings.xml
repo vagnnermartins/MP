@@ -28,6 +28,7 @@
     <string name="total">TOTAL</string>
     <string name="balance">Equilibrio</string>
     <string name="hours">Horas</string>
+    <string name="share">Compartir</string>
 
     <string name="january">Enero</string>
     <string name="february">Febrero</string>
@@ -51,4 +52,5 @@
     <string name="thursday">Jue</string>
     <string name="friday">Vie</string>
     <string name="saturday">Sáb</string>
+    <string name="date">Fecha</string>
 </resources>

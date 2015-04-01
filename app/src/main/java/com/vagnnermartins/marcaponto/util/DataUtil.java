@@ -106,27 +106,10 @@ public class DataUtil {
         return result;
     }
 
-    public static double diferencaEmDias(Date dataInicial, Date dataFinal){
-        double result = 0;
-        long diferenca = dataFinal.getTime() - dataInicial.getTime();
-        double diferencaEmDias = (diferenca /1000) / 60 / 60 /24;
-        long horasRestantes = (diferenca /1000) / 60 / 60 %24;
-        result = diferencaEmDias + (horasRestantes /24d);
-        return result;
-    }
-
-    public static Date getLastDayOfMonth(int month){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
-        return  calendar.getTime();
-    }
-
-    public static String getMonthYear(Date date, Resources res){
+    public static String getMonthYear(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        String formattedDate = DataUtil.getMonth(calendar.get(Calendar.MONTH), res);
-        formattedDate += " / ";
+        String formattedDate = calendar.get(Calendar.MONTH) + " / ";
         formattedDate += DataUtil.transformDateToSting(calendar.getTime(), "yyyy");
         return formattedDate;
     }
@@ -227,24 +210,4 @@ public class DataUtil {
 		}
 		return retorno;
 	}
-
-
-    public static double diferencaEmHoras(Date dataInicial, Date dataFinal){
-        double result = 0;
-        long diferenca = dataFinal.getTime() - dataInicial.getTime();
-        long diferencaEmHoras = (diferenca /1000) / 60 / 60;
-        long minutosRestantes = (diferenca / 1000)/60 %60;
-        double horasRestantes = minutosRestantes / 60d;
-        result = diferencaEmHoras + (horasRestantes);
-        return result;
-    }
-
-    public static double diferencaEmMinutos(Date dataInicial, Date dataFinal){
-        double result = 0;
-        long diferenca = dataFinal.getTime() - dataInicial.getTime();
-        double diferencaEmMinutos = (diferenca /1000) / 60;
-        long segundosRestantes = (diferenca / 1000)%60;
-        result = diferencaEmMinutos + (segundosRestantes /60d);
-        return result;
-    }
 }

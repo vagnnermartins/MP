@@ -28,6 +28,8 @@
     <string name="total">TOTAL</string>
     <string name="balance">Balance</string>
     <string name="hours">Hours</string>
+    <string name="csv">CSV</string>
+    <string name="share">Share</string>
 
     <string name="january">January</string>
     <string name="february">February</string>
@@ -51,4 +53,5 @@
     <string name="thursday">Thu</string>
     <string name="friday">Fri</string>
     <string name="saturday">Sat</string>
+    <string name="date">Date</string>
 </resources>

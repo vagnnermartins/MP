@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.adapter.HistoryAdapter;
@@ -19,7 +23,9 @@ import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.enums.StatusEnum;
 import com.vagnnermartins.marcaponto.task.FindHistoriesAsyncTask;
+import com.vagnnermartins.marcaponto.task.SaveHistoryAsyncTask;
 import com.vagnnermartins.marcaponto.ui.helper.HistoryUIHelper;
+import com.vagnnermartins.marcaponto.util.CSVUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
 import java.util.Calendar;
@@ -46,7 +52,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void checkUpdate() {
-        if(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources())) == null){
+        if(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())) == null){
             checkStatus(StatusEnum.INICIO);
         }else{
             loadValues();
@@ -54,6 +60,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void init() {
+        setHasOptionsMenu(true);
         app = (App) getActivity().getApplication();
         ui.date.setOnClickListener(onDateClickListener());
         ui.previous.setOnClickListener(onPreviousClickListener());
@@ -92,15 +99,17 @@ public class HistoryFragment extends Fragment {
     }
 
     private void loadDate(){
-        ui.date.setText(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources()));
+        String date = DataUtil.getMonth(app.dateHistory.get(Calendar.DAY_OF_MONTH), getResources()) +
+                " / " + app.dateHistory.get(Calendar.YEAR);
+        ui.date.setText(date);
     }
 
     private void loadValues(){
         ui.list.setAdapter(new HistoryAdapter(getActivity(),
                 R.layout.item_history,
-                app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources())),
+                app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())),
                 app.mapTimes));
-        calcMonthBalance(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources())));
+        calcMonthBalance(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())));
     }
 
     private Callback onFindHistoryCallback() {
@@ -108,7 +117,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onReturn(Exception error, Object... objects) {
                 List<History> histories = (List<History>) objects[0];
-                app.mapListHistories.put(DataUtil.getMonthYear(app.dateHistory.getTime(), getResources()), histories);
+                app.mapListHistories.put(DataUtil.getMonthYear(app.dateHistory.getTime()), histories);
                 loadValues();
                 calcMonthBalance(histories);
                 checkStatus(StatusEnum.EXECUTADO);
@@ -195,5 +204,38 @@ public class HistoryFragment extends Fragment {
                 checkUpdate();
             }
         };
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_history_save:
+                SaveHistoryAsyncTask task = new SaveHistoryAsyncTask(onSaveHistoryCallback(),
+                        getResources(),
+                        app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())));
+                app.registerTask(task);
+                task.execute();
+                break;
+            case R.id.menu_history_share:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private Callback onSaveHistoryCallback() {
+        return new Callback() {
+            @Override
+            public void onReturn(Exception error, Object... objects) {
+                if(error == null){
+                    Toast.makeText(getActivity(), (String) objects[0], Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_fragment_history, menu);
     }
 }

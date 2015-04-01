@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.entity.History;
@@ -61,11 +60,10 @@ public class AlarmUtil {
 
     public static void scheduleAllNotification(Context context) {
         if(SessionUtil.getValue(context, SettingsFragment.NOTIFICATION)){
-            Resources res = context.getResources();
             List<Time> times = SingletonAdapter.getInstance(context).getAdapter().findAll(Time.class);
             Calendar calendar = Calendar.getInstance();
             List<History> result = new ArrayList<>();
-            List<History> myHistories = History.findHistoryByMonthYear(DataUtil.getMonthYear(calendar.getTime(), res));
+            List<History> myHistories = History.findHistoryByMonthYear(DataUtil.getMonthYear(calendar.getTime()));
             Map<String, History> mapHistories = new HashMap<>();
             for(History item : myHistories){
                 mapHistories.put(item.getDay(), item);
@@ -76,7 +74,7 @@ public class AlarmUtil {
                 if(history == null){
                     history = new History();
                     history.setDay(DataUtil.transformDateToSting(calendar.getTime(), "dd/MM/yyyy"));
-                    history.setMonthYear(DataUtil.getMonthYear(calendar.getTime(), res));
+                    history.setMonthYear(DataUtil.getMonthYear(calendar.getTime()));
                 }
                 result.add(history);
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
