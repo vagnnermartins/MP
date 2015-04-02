@@ -22,12 +22,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public static final String HISTORY = "history";
     public static final String TITLE = "title";
+    public static final String WHICH = "which";
     public static final int REQUEST_YES = 1;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         History history = findHistory(intent);
         int title = intent.getIntExtra(TITLE, 0);
+        int which = intent.getIntExtra(WHICH, 0);
         if (SessionUtil.getValue(context, SettingsFragment.NOTIFICATION) &&
                 emptyHistory(history, title)) {
             String message = getMessage(context, title);
@@ -40,9 +42,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                             .setDefaults(Notification.DEFAULT_ALL)
                             .setAutoCancel(true)
                             .setContentIntent(getPendingIntent(context))
-                            .addAction(R.mipmap.ic_clock, context.getString(R.string.time_clock_register), getActionPendingIntent(context, history, title));
+                            .addAction(R.mipmap.ic_clock, context.getString(R.string.time_clock_register), getActionPendingIntent(context, history));
             NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Integer id = Integer.parseInt(history.getDay().replaceAll("[^0-9]", ""));
+            String sId = history.getDay() + which;
+            Integer id = Integer.parseInt(sId.replaceAll("[^0-9]", ""));
             mNotifyMgr.notify(id, mBuilder.build());
         }
     }
@@ -80,11 +83,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         return result;
     }
 
-    private PendingIntent getActionPendingIntent(Context context, History history, int title) {
+    private PendingIntent getActionPendingIntent(Context context, History history) {
         Intent intent = new Intent(context, NotificationReceiver.class);
         intent.setAction(NotificationReceiver.ACTION_REGISTER);
         intent.putExtra(NotificationReceiver.HISTORY, history.getDay());
-        intent.putExtra(NotificationReceiver.WHICH, title);
         return PendingIntent.getBroadcast(context, REQUEST_YES, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 

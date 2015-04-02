@@ -16,6 +16,7 @@ import com.vagnnermartins.marcaponto.app.App;
 import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.enums.StatusEnum;
 import com.vagnnermartins.marcaponto.ui.helper.TimesUIHelper;
+import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
 import java.text.DecimalFormat;
@@ -181,7 +182,6 @@ public class TimesActivity extends ActionBarActivity {
                     calendar.set(Calendar.MINUTE, selectedMinute);
                     calendar.set(Calendar.SECOND, 0);
                     calendar.set(Calendar.MILLISECOND, 0);
-                    calendar.set(Calendar.DAY_OF_MONTH, selectedDay.get(Calendar.DAY_OF_MONTH));
                     DecimalFormat format = new DecimalFormat("00");
                     String text = format.format(selectedHour) + ":" + format.format(selectedMinute);
                     prepareSaveTime(text, calendar.getTime().getTime());
@@ -208,6 +208,7 @@ public class TimesActivity extends ActionBarActivity {
         }
         selectedTime.save();
         app.historyFragment.checkStatus(StatusEnum.INICIO);
+        AlarmUtil.scheduleAllNotification(this);
     }
 
     private void setValue(View view, int textViewId, String text, View.OnClickListener onClickListener){

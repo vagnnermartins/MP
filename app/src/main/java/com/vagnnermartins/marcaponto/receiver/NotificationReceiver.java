@@ -1,6 +1,8 @@
 package com.vagnnermartins.marcaponto.receiver;
 
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
@@ -8,8 +10,10 @@ import android.widget.Toast;
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
+import com.vagnnermartins.marcaponto.ui.widget.TimesheetWidget;
 import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
+import com.vagnnermartins.marcaponto.util.WidgetUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,7 +22,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     public static final String ACTION_REGISTER = "register";
 
-    public static final String WHICH = "which";
     public static final String HISTORY = "history";
 
     @Override
@@ -28,27 +31,22 @@ public class NotificationReceiver extends BroadcastReceiver {
             if (ACTION_REGISTER.equals(action)) {
                 SingletonAdapter.getInstance(context);
                 History history = findHistory(intent);
-                final int which = intent.getIntExtra(WHICH, 0);
                 Calendar now = Calendar.getInstance();
                 now = configDate(history, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
-                switch (which){
-                    case R.string.entrance:
-                        history.setEntrance(now.getTime().getTime());
-                        break;
-                    case R.string.pause:
-                        history.setPause(now.getTime().getTime());
-                        break;
-                    case R.string.back:
-                        history.setBack(now.getTime().getTime());
-                        break;
-                    case R.string.quit:
-                        history.setQuit(now.getTime().getTime());
-                        break;
+                if (history.getEntrance() == 0) {
+                    history.setEntrance(now.getTime().getTime());
+                } else if (history.getPause() == 0) {
+                    history.setPause(now.getTime().getTime());
+                } else if (history.getBack() == 0) {
+                    history.setBack(now.getTime().getTime());
+                } else if (history.getQuit() == 0) {
+                    history.setQuit(now.getTime().getTime());
                 }
                 history.saveOrUpdate();
                 Toast.makeText(context, R.string.notification_message_success, Toast.LENGTH_LONG).show();
                 Integer id = Integer.parseInt(history.getDay().replaceAll("[^0-9]", ""));
                 AlarmUtil.cancelNotification(context, id);
+                WidgetUtil.updateWidget(context);
             }
         }
     }

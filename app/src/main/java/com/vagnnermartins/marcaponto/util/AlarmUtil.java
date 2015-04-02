@@ -9,6 +9,7 @@ import android.content.Intent;
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.entity.Time;
+import com.vagnnermartins.marcaponto.enums.WhichRegisterEnum;
 import com.vagnnermartins.marcaponto.receiver.AlarmReceiver;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
 import com.vagnnermartins.marcaponto.ui.fragment.SettingsFragment;
@@ -25,17 +26,27 @@ import java.util.Map;
  */
 public class AlarmUtil {
 
-    private static void scheduleNotification(Context context, History history, long dateTime, int title) {
-        if(Calendar.getInstance().getTimeInMillis() < dateTime){
-            Calendar alarm = Calendar.getInstance();
-            alarm.setTime(new Date(dateTime));
+    private static void scheduleNotification(Context context, History history, long dateTime, int title, int which) {
+        long timeAlarm = configAlarmTime(history, dateTime);
+        if(timeAlarm > Calendar.getInstance().getTimeInMillis()){
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, AlarmReceiver.class);
             intent.putExtra(AlarmReceiver.HISTORY, history.getDay());
             intent.putExtra(AlarmReceiver.TITLE, title);
+            intent.putExtra(AlarmReceiver.WHICH, which);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) history.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(), pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, timeAlarm, pendingIntent);
         }
+    }
+
+    private static long configAlarmTime(History history, long dateTime) {
+        Calendar hourMinute = Calendar.getInstance();
+        hourMinute.setTime(new Date(dateTime));
+        Calendar alarm = Calendar.getInstance();
+        alarm.setTime(DataUtil.transformStringToDate("dd/MM/yyyy", history.getDay()));
+        alarm.set(Calendar.HOUR_OF_DAY, hourMinute.get(Calendar.HOUR_OF_DAY));
+        alarm.set(Calendar.MINUTE, hourMinute.get(Calendar.MINUTE));
+        return alarm.getTimeInMillis();
     }
 
     private static void scheduleHistoryNotifications(Context context, List<History> histories, List<Time> times){
@@ -44,16 +55,20 @@ public class AlarmUtil {
             calendar.setTime(DataUtil.transformStringToDate("dd/MM/yyyy", history.getDay()));
             Time dayOfWeek = times.get(calendar.get(Calendar.DAY_OF_WEEK) -1);
             if(dayOfWeek.getEntrance() != 0 && history.getEntrance() == 0){
-                scheduleNotification(context, history, dayOfWeek.getEntrance(), R.string.entrance);
+                scheduleNotification(context, history, dayOfWeek.getEntrance(),
+                        R.string.entrance, WhichRegisterEnum.ENTRANCE.getWhich());
             }
             if(dayOfWeek.getEntrance() != 0 && history.getPause() == 0){
-                scheduleNotification(context, history, dayOfWeek.getPause(), R.string.pause);
+                scheduleNotification(context, history, dayOfWeek.getPause(),
+                        R.string.pause, WhichRegisterEnum.PAUSE.getWhich());
             }
             if(dayOfWeek.getBack() != 0 && history.getBack() == 0){
-                scheduleNotification(context, history, dayOfWeek.getBack(), R.string.back);
+                scheduleNotification(context, history, dayOfWeek.getBack(),
+                        R.string.back, WhichRegisterEnum.BACK.getWhich());
             }
             if(dayOfWeek.getQuit() != 0 && history.getQuit() == 0){
-                scheduleNotification(context, history, dayOfWeek.getQuit(), R.string.quit);
+                scheduleNotification(context, history, dayOfWeek.getQuit(),
+                        R.string.quit, WhichRegisterEnum.QUIT.getWhich());
             }
         }
     }
@@ -69,7 +84,7 @@ public class AlarmUtil {
                 mapHistories.put(item.getDay(), item);
             }
 
-            for (int i = 0 ; i < 5; i++){
+            for (int i = 0 ; i < 2; i++){
                 History history = mapHistories.get(DataUtil.transformDateToSting(calendar.getTime(), "dd/MM/yyyy"));
                 if(history == null){
                     history = new History();
@@ -86,5 +101,10 @@ public class AlarmUtil {
     public static void cancelNotification(Context context, int id){
         NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.cancel(id);
+    }
+
+    public static void cancellAllNotifications(Context context){
+        NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifyMgr.cancelAll();
     }
 }

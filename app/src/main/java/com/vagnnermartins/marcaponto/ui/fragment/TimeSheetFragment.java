@@ -18,10 +18,12 @@ import com.vagnnermartins.marcaponto.app.App;
 import com.vagnnermartins.marcaponto.callback.Callback;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.enums.StatusEnum;
+import com.vagnnermartins.marcaponto.enums.WhichRegisterEnum;
 import com.vagnnermartins.marcaponto.task.FindHistoryAsyncTask;
 import com.vagnnermartins.marcaponto.ui.helper.TimeSheetUIHelper;
 import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
+import com.vagnnermartins.marcaponto.util.WidgetUtil;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -206,7 +208,7 @@ public class TimeSheetFragment extends Fragment {
                 currentHistory.saveOrUpdate();
                 app.mapListHistories.put(currentHistory.getMonthYear(), null);
                 app.historyFragment.checkStatus(StatusEnum.INICIO);
-                updateNotifications();
+                WidgetUtil.updateWidget(getActivity());
             }
         };
     }
@@ -256,20 +258,24 @@ public class TimeSheetFragment extends Fragment {
                     switch (selectedTime.getId()) {
                         case R.id.fragment_time_sheet_entrance:
                             currentHistory.setEntrance(calendar.getTime().getTime());
+                            updateNotifications(WhichRegisterEnum.ENTRANCE);
                             break;
                         case R.id.fragment_time_sheet_pause:
                             currentHistory.setPause(calendar.getTime().getTime());
+                            updateNotifications(WhichRegisterEnum.PAUSE);
                             break;
                         case R.id.fragment_time_sheet_back:
                             currentHistory.setBack(calendar.getTime().getTime());
+                            updateNotifications(WhichRegisterEnum.BACK);
                             break;
                         case R.id.fragment_time_sheet_quit:
                             currentHistory.setQuit(calendar.getTime().getTime());
+                            updateNotifications(WhichRegisterEnum.QUIT);
                             break;
                     }
                     currentHistory.saveOrUpdate();
                     app.historyFragment.checkStatus(StatusEnum.INICIO);
-                    updateNotifications();
+                    WidgetUtil.updateWidget(getActivity());
                 }
             }
 
@@ -296,26 +302,31 @@ public class TimeSheetFragment extends Fragment {
                 switch (selectedTime.getId()) {
                     case R.id.fragment_time_sheet_entrance:
                         currentHistory.setEntrance(0);
+                        updateNotifications(WhichRegisterEnum.ENTRANCE);
                         break;
                     case R.id.fragment_time_sheet_pause:
                         currentHistory.setPause(0);
+                        updateNotifications(WhichRegisterEnum.PAUSE);
                         break;
                     case R.id.fragment_time_sheet_back:
                         currentHistory.setBack(0);
+                        updateNotifications(WhichRegisterEnum.BACK);
                         break;
                     case R.id.fragment_time_sheet_quit:
                         currentHistory.setQuit(0);
+                        updateNotifications(WhichRegisterEnum.QUIT);
                         break;
                 }
                 currentHistory.saveOrUpdate();
                 app.historyFragment.checkStatus(StatusEnum.INICIO);
-                updateNotifications();
+                WidgetUtil.updateWidget(getActivity());
             }
         };
     }
 
-    private void updateNotifications() {
-        Integer id = Integer.parseInt(currentHistory.getDay().replaceAll("[^0-9]", ""));
+    private void updateNotifications(WhichRegisterEnum which) {
+        String sId = currentHistory.getDay() + which.getWhich();
+        Integer id = Integer.parseInt(sId.replaceAll("[^0-9]", ""));
         AlarmUtil.cancelNotification(getActivity(), id);
         AlarmUtil.scheduleAllNotification(getActivity());
     }
@@ -325,7 +336,6 @@ public class TimeSheetFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 cancel = true;
-//                selectedTime = null;
             }
         };
     }

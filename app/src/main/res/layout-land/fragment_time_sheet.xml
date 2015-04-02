@@ -6,70 +6,88 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/time_sheet_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:weightSum="2">
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            card_view:cardCornerRadius="4dp">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:id="@+id/fragment_time_sheet_time_main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <AnalogClock
-                    android:layout_width="0dp"
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3" />
+                    android:layout_gravity="center"
+                    card_view:cardCornerRadius="4dp">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="7"
-                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/fragment_time_sheet_date"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Quarta-feira, 23 de Janeiro de 2015"
-                        android:textColor="?attr/colorPrimaryDark"
-                        android:textSize="18sp" />
+                        android:orientation="horizontal"
+                        android:weightSum="10">
 
-                    <DigitalClock
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:textColor="?attr/colorAccent"
-                        android:textSize="39sp" />
-                </LinearLayout>
+                        <AnalogClock
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="7"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/fragment_time_sheet_date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Quarta-feira, 23 de Janeiro de 2015"
+                                android:textColor="?attr/colorPrimaryDark"
+                                android:textSize="18sp" />
+
+                            <DigitalClock
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="?attr/colorAccent"
+                                android:textSize="39sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/fragment_time_sheet_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/time_sheet_main"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/time_clock_register"
+                    android:textColor="?attr/colorPrimary" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </LinearLayout>
 
-        <com.gc.materialdesign.views.ButtonRectangle
-            android:id="@+id/fragment_time_sheet_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/time_clock_register"
-            android:textColor="?attr/colorPrimary" />
 
         <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"

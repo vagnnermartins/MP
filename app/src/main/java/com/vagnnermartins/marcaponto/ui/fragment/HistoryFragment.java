@@ -1,7 +1,9 @@
 package com.vagnnermartins.marcaponto.ui.fragment;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,9 +27,9 @@ import com.vagnnermartins.marcaponto.enums.StatusEnum;
 import com.vagnnermartins.marcaponto.task.FindHistoriesAsyncTask;
 import com.vagnnermartins.marcaponto.task.SaveHistoryAsyncTask;
 import com.vagnnermartins.marcaponto.ui.helper.HistoryUIHelper;
-import com.vagnnermartins.marcaponto.util.CSVUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +41,8 @@ public class HistoryFragment extends Fragment {
 
     public static final int POSITION = 1;
     public static final int NAME_TAB = R.string.fragment_history;
+    private static final int REQUEST_SAVE = 0;
+    private static final int REQUEST_SHARE = 1;
 
     private App app;
     private HistoryUIHelper ui;
@@ -210,25 +214,50 @@ public class HistoryFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_history_save:
-                SaveHistoryAsyncTask task = new SaveHistoryAsyncTask(onSaveHistoryCallback(),
-                        getResources(),
-                        app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())));
-                app.registerTask(task);
-                task.execute();
+                saveOrShareHistory(REQUEST_SAVE);
                 break;
             case R.id.menu_history_share:
+                saveOrShareHistory(REQUEST_SHARE);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private Callback onSaveHistoryCallback() {
+    private void saveOrShareHistory(int request) {
+        SaveHistoryAsyncTask task = new SaveHistoryAsyncTask(onSaveOrShareHistoryCallback(request),
+                getResources(),
+                app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())),
+                app.mapTimes);
+        app.registerTask(task);
+        task.execute();
+    }
+
+    private Callback onSaveOrShareHistoryCallback(final int request) {
         return new Callback() {
             @Override
             public void onReturn(Exception error, Object... objects) {
                 if(error == null){
-                    Toast.makeText(getActivity(), (String) objects[0], Toast.LENGTH_LONG).show();
+                    String path = (String) objects[0];
+                    switch (request){
+                        case REQUEST_SAVE:
+                            Toast.makeText(getActivity(), path, Toast.LENGTH_LONG).show();
+                            break;
+                        case REQUEST_SHARE:
+                            share(path);
+                            break;
+                    }
                 }
+            }
+
+            private void share(String path) {
+                String subject = getString(R.string.app_name) + " " +
+                        DataUtil.getMonth(app.dateHistory.get(Calendar.MONTH), getResources()) +
+                        " / " + app.dateHistory.get(Calendar.YEAR);
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(path)));
+                sendIntent.setType("text/html");
+                startActivity(sendIntent);
             }
         };
     }
