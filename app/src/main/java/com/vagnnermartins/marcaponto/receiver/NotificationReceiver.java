@@ -1,16 +1,14 @@
 package com.vagnnermartins.marcaponto.receiver;
 
-import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.entity.History;
+import com.vagnnermartins.marcaponto.enums.WhichRegisterEnum;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
-import com.vagnnermartins.marcaponto.ui.widget.TimesheetWidget;
 import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 import com.vagnnermartins.marcaponto.util.WidgetUtil;
@@ -31,20 +29,25 @@ public class NotificationReceiver extends BroadcastReceiver {
             if (ACTION_REGISTER.equals(action)) {
                 SingletonAdapter.getInstance(context);
                 History history = findHistory(intent);
+                WhichRegisterEnum which = WhichRegisterEnum.ENTRANCE;
                 Calendar now = Calendar.getInstance();
                 now = configDate(history, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
                 if (history.getEntrance() == 0) {
                     history.setEntrance(now.getTime().getTime());
                 } else if (history.getPause() == 0) {
                     history.setPause(now.getTime().getTime());
+                    which = WhichRegisterEnum.PAUSE;
                 } else if (history.getBack() == 0) {
                     history.setBack(now.getTime().getTime());
+                    which = WhichRegisterEnum.BACK;
                 } else if (history.getQuit() == 0) {
                     history.setQuit(now.getTime().getTime());
+                    which = WhichRegisterEnum.QUIT;
                 }
                 history.saveOrUpdate();
                 Toast.makeText(context, R.string.notification_message_success, Toast.LENGTH_LONG).show();
-                Integer id = Integer.parseInt(history.getDay().replaceAll("[^0-9]", ""));
+                String sId = history.getDay() + which.getWhich();
+                Integer id = Integer.parseInt(sId.replaceAll("[^0-9]", ""));
                 AlarmUtil.cancelNotification(context, id);
                 WidgetUtil.updateWidget(context);
             }

@@ -29,12 +29,14 @@ public class AlarmUtil {
     private static void scheduleNotification(Context context, History history, long dateTime, int title, int which) {
         long timeAlarm = configAlarmTime(history, dateTime);
         if(timeAlarm > Calendar.getInstance().getTimeInMillis()){
+            String sId = history.getDay() + which;
+            Integer id = Integer.parseInt(sId.replaceAll("[^0-9]", ""));
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, AlarmReceiver.class);
             intent.putExtra(AlarmReceiver.HISTORY, history.getDay());
             intent.putExtra(AlarmReceiver.TITLE, title);
-            intent.putExtra(AlarmReceiver.WHICH, which);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) history.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            intent.putExtra(AlarmReceiver.ID, id);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.set(AlarmManager.RTC_WAKEUP, timeAlarm, pendingIntent);
         }
     }
@@ -58,7 +60,7 @@ public class AlarmUtil {
                 scheduleNotification(context, history, dayOfWeek.getEntrance(),
                         R.string.entrance, WhichRegisterEnum.ENTRANCE.getWhich());
             }
-            if(dayOfWeek.getEntrance() != 0 && history.getPause() == 0){
+            if(dayOfWeek.getPause() != 0 && history.getPause() == 0){
                 scheduleNotification(context, history, dayOfWeek.getPause(),
                         R.string.pause, WhichRegisterEnum.PAUSE.getWhich());
             }
@@ -84,7 +86,7 @@ public class AlarmUtil {
                 mapHistories.put(item.getDay(), item);
             }
 
-            for (int i = 0 ; i < 2; i++){
+            for (int i = 0 ; i < 3; i++){
                 History history = mapHistories.get(DataUtil.transformDateToSting(calendar.getTime(), "dd/MM/yyyy"));
                 if(history == null){
                     history = new History();

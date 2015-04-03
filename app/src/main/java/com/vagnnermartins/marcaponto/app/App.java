@@ -10,6 +10,7 @@ import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
 import com.vagnnermartins.marcaponto.ui.fragment.HistoryFragment;
+import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.WidgetUtil;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class App extends Application {
         dateHistory = Calendar.getInstance();
         tasks = new ArrayList<>();
         WidgetUtil.updateWidget(this);
+        AlarmUtil.cancellAllNotifications(this);
     }
 
     private void initDataBase() {

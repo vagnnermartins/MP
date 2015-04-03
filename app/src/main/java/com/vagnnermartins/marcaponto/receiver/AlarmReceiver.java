@@ -22,20 +22,20 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public static final String HISTORY = "history";
     public static final String TITLE = "title";
-    public static final String WHICH = "which";
+    public static final String ID = "id";
     public static final int REQUEST_YES = 1;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         History history = findHistory(intent);
         int title = intent.getIntExtra(TITLE, 0);
-        int which = intent.getIntExtra(WHICH, 0);
+        int id = intent.getIntExtra(ID, 0);
         if (SessionUtil.getValue(context, SettingsFragment.NOTIFICATION) &&
                 emptyHistory(history, title)) {
             String message = getMessage(context, title);
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.drawable.ic_launcher)
+                            .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle(context.getString(title))
                             .setContentText(message)
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
@@ -44,8 +44,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                             .setContentIntent(getPendingIntent(context))
                             .addAction(R.mipmap.ic_clock, context.getString(R.string.time_clock_register), getActionPendingIntent(context, history));
             NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            String sId = history.getDay() + which;
-            Integer id = Integer.parseInt(sId.replaceAll("[^0-9]", ""));
             mNotifyMgr.notify(id, mBuilder.build());
         }
     }

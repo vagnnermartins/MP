@@ -1,8 +1,8 @@
 package com.vagnnermartins.marcaponto.enums;
 
 /**
- * Created by vagnnermartins on 16/07/14.
- */
+* Created by vagnnermartins on 16/07/14.
+*/
 public enum WhichRegisterEnum {
     ENTRANCE(1),
     PAUSE(2),

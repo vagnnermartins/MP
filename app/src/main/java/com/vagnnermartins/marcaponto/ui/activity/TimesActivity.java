@@ -208,6 +208,7 @@ public class TimesActivity extends ActionBarActivity {
         }
         selectedTime.save();
         app.historyFragment.checkStatus(StatusEnum.INICIO);
+        AlarmUtil.cancellAllNotifications(this);
         AlarmUtil.scheduleAllNotification(this);
     }
 
