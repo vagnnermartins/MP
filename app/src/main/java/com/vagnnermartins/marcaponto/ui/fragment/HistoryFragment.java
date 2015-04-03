@@ -103,7 +103,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void loadDate(){
-        String date = DataUtil.getMonth(app.dateHistory.get(Calendar.DAY_OF_MONTH), getResources()) +
+        String date = DataUtil.getMonth(app.dateHistory.get(Calendar.MONTH), getResources()) +
                 " / " + app.dateHistory.get(Calendar.YEAR);
         ui.date.setText(date);
     }
