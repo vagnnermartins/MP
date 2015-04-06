@@ -62,6 +62,7 @@ public class TimeSheetFragment extends Fragment {
     public void onResume() {
         super.onResume();
         checkStatus(StatusEnum.INICIO);
+        app.showInterstitial();
     }
 
     private void checkUpdate() {

@@ -41,6 +41,12 @@ public class SettingsFragment extends Fragment {
         return ui.view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        app.showInterstitial();
+    }
+
     private void init() {
         app = (App) getActivity().getApplication();
         ui.hours.setOnClickListener(onHoursClickListener());
@@ -109,4 +115,5 @@ public class SettingsFragment extends Fragment {
             }
         };
     }
+
 }

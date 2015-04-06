@@ -62,6 +62,12 @@ public class HistoryFragment extends Fragment {
         return ui.view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        app.showInterstitial();
+    }
+
     private void checkUpdate() {
         if(app.mapListHistories.get(DataUtil.getMonthYear(app.dateHistory.getTime())) == null){
             checkStatus(StatusEnum.INICIO);

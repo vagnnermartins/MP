@@ -207,7 +207,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/ADMOB_TIMESHEET_PORTRAIT"
-        android:visibility="gone"/>
+        ads:adUnitId="@string/ADMOB_TIMESHEET_PORTRAIT" />
 
 </RelativeLayout>

@@ -81,7 +81,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/ADMOB_SETTINGS"
-        android:visibility="gone"/>
+        ads:adUnitId="@string/ADMOB_SETTINGS" />
 
 </RelativeLayout>

@@ -30,8 +30,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 SingletonAdapter.getInstance(context);
                 History history = findHistory(intent);
                 WhichRegisterEnum which = WhichRegisterEnum.ENTRANCE;
-                Calendar now = Calendar.getInstance();
-                now = configDate(history, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+                Calendar now = configDate();
                 if (history.getEntrance() == 0) {
                     history.setEntrance(now.getTime().getTime());
                 } else if (history.getPause() == 0) {
@@ -68,15 +67,11 @@ public class NotificationReceiver extends BroadcastReceiver {
         return qHistory;
     }
 
-    private Calendar configDate(History history, int selectedHour, int selectedMinute) {
-        Calendar selectedDay = Calendar.getInstance();
-        selectedDay.setTime(DataUtil.transformStringToDate("dd/MM/yyyy", history.getDay()));
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
-        calendar.set(Calendar.MINUTE, selectedMinute);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.DAY_OF_MONTH, selectedDay.get(Calendar.DAY_OF_MONTH));
-        return calendar;
+    private Calendar configDate() {
+        Calendar reseted = DataUtil.getResetedDay();
+        Calendar now = Calendar.getInstance();
+        reseted.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR_OF_DAY));
+        reseted.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
+        return reseted;
     }
 }

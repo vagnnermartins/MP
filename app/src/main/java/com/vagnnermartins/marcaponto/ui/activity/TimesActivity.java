@@ -46,6 +46,12 @@ public class TimesActivity extends ActionBarActivity {
         loadValues();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        app.showInterstitial();
+    }
+
     private void init() {
         app = (App) getApplication();
         ui = new TimesUIHelper(getWindow().getDecorView().findViewById(android.R.id.content));

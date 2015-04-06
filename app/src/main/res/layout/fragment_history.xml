@@ -119,8 +119,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="10dp"
-        android:weightSum="3"
-        android:layout_alignParentBottom="true">
+        android:weightSum="3">
 
         <TextView
             android:layout_width="0dp"
@@ -156,7 +155,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/ADMOB_HISTORY"
-        android:visibility="gone"/>
+        ads:adUnitId="@string/ADMOB_HISTORY" />
 
 </RelativeLayout>

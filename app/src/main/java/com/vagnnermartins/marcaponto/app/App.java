@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 
 import com.codeslap.persistence.DatabaseSpec;
 import com.codeslap.persistence.PersistenceConfig;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.vagnnermartins.marcaponto.R;
@@ -35,6 +37,8 @@ public class App extends Application {
     public Map<String, History> mapHistories;
     public HistoryFragment historyFragment;
     private HashMap<TrackerName, Tracker> mTrackers;
+    public PublisherInterstitialAd mPublisherInterstitialAd;
+    public int showInterstitial = 1;
 
     private List<AsyncTask<?,?,?>> tasks;
 
@@ -46,6 +50,7 @@ public class App extends Application {
 
     private void init() {
         initDataBase();
+        requestNewInterstitial();
         mapListHistories = new HashMap<>();
         mapTimes = new HashMap<>();
         mapHistories = new HashMap<>();
@@ -54,6 +59,23 @@ public class App extends Application {
         mTrackers = new HashMap<>();
         WidgetUtil.updateWidget(this);
         AlarmUtil.cancellAllNotifications(this);
+    }
+
+    public void requestNewInterstitial() {
+        mPublisherInterstitialAd = new PublisherInterstitialAd(this);
+        mPublisherInterstitialAd.setAdUnitId(getString(R.string.ADMOB_INTERSTITIAL));
+        PublisherAdRequest adRequest = new PublisherAdRequest.Builder().build();
+        mPublisherInterstitialAd.loadAd(adRequest);
+    }
+
+    public void showInterstitial() {
+        if(showInterstitial == 7 || showInterstitial % 40 == 0) {
+            if(mPublisherInterstitialAd.isLoaded()){
+                mPublisherInterstitialAd.show();
+                requestNewInterstitial();
+            }
+        }
+        showInterstitial++;
     }
 
     private void initDataBase() {
