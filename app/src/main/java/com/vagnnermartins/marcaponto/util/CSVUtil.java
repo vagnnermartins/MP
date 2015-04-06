@@ -98,6 +98,6 @@ public class CSVUtil {
     private static String getFileName(List<History> histories, Resources res) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(DataUtil.transformStringToDate("dd/MM/yyyy", histories.get(0).getDay()));
-        return "/"+DataUtil.getMonth(calendar.get(Calendar.DAY_OF_MONTH), res) + "_" + calendar.get(Calendar.YEAR) + ".csv";
+        return "/"+DataUtil.getMonth(calendar.get(Calendar.MONTH), res) + "_" + calendar.get(Calendar.YEAR) + ".csv";
     }
 }

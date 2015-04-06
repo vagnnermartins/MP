@@ -100,7 +100,7 @@ public class App extends Application {
         tasks.add(task);
     }
 
-    private void unregisterTask(AsyncTask<?,?,?> task){
+    public void unregisterTask(AsyncTask<?,?,?> task){
         if(task != null){
             task.cancel(true);
             tasks.remove(task);

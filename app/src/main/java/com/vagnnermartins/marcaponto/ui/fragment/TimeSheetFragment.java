@@ -50,6 +50,7 @@ public class TimeSheetFragment extends Fragment {
     private Calendar selectedDay;
     private boolean cancel;
     private TextView selectedTime;
+    private FindHistoryAsyncTask task;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -103,7 +104,7 @@ public class TimeSheetFragment extends Fragment {
 
     private void checkStatus(StatusEnum status) {
         if (status == StatusEnum.INICIO) {
-            FindHistoryAsyncTask task = new FindHistoryAsyncTask(onFindHistoryCallback(),
+            task = new FindHistoryAsyncTask(onFindHistoryCallback(),
                     DataUtil.transformDateToSting(selectedDay.getTime(), "dd/MM/yyyy"));
             task.execute();
             app.registerTask(task);
@@ -356,6 +357,12 @@ public class TimeSheetFragment extends Fragment {
         Integer id = Integer.parseInt(sId.replaceAll("[^0-9]", ""));
         AlarmUtil.cancelNotification(getActivity(), id);
         AlarmUtil.scheduleAllNotification(getActivity());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        app.unregisterTask(task);
     }
 
     private DialogInterface.OnClickListener onCancelClickListener() {
