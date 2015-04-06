@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,6 +26,10 @@ import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 import com.vagnnermartins.marcaponto.util.WidgetUtil;
 
+import com.google.android.gms.ads.AdRequest;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,6 +75,37 @@ public class TimeSheetFragment extends Fragment {
         ui.backMain.setOnClickListener(onTimesClickListener());
         ui.quitMain.setOnClickListener(onTimesClickListener());
         ui.timeMain.setOnClickListener(onTimeClickListener());
+        initAdmob();
+    }
+
+    private void initAdmob() {
+        AdRequest adRequestProd = new AdRequest.Builder()
+                .addTestDevice("2C9AEADE49D960B9D04C47AD8B18EAEB")
+                .build();
+        ui.adView.loadAd(adRequestProd);
+    }
+
+    public static final String md5(final String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++) {
+                String h = Integer.toHexString(0xFF & messageDigest[i]);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+        }
+        return "";
     }
 
     private void checkStatus(StatusEnum status) {

@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import com.gc.materialdesign.views.CheckBox;
+import com.google.android.gms.ads.AdRequest;
+
 import com.gc.materialdesign.widgets.SnackBar;
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.ui.activity.TimesActivity;
@@ -39,6 +40,14 @@ public class SettingsFragment extends Fragment {
         ui.checkBoxMain.setOnClickListener(onCheckBoxMainClickListener());
         ui.checkBox.setChecked(SessionUtil.getValue(getActivity(), NOTIFICATION));
         ui.checkBox.setOnCheckedChangeListener(onCheckedChangeListener());
+        initAdmob();
+    }
+
+    private void initAdmob() {
+        AdRequest adRequestProd = new AdRequest.Builder()
+                .addTestDevice("2C9AEADE49D960B9D04C47AD8B18EAEB")
+                .build();
+        ui.adView.loadAd(adRequestProd);
     }
 
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener() {

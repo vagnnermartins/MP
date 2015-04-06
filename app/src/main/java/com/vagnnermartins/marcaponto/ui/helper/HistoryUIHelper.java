@@ -1,11 +1,11 @@
 package com.vagnnermartins.marcaponto.ui.helper;
 
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.gc.materialdesign.views.ButtonFlat;
+import com.google.android.gms.ads.AdView;
+
 import com.vagnnermartins.marcaponto.R;
 
 /**
@@ -21,6 +21,7 @@ public class HistoryUIHelper {
     public TextView totalHours;
     public TextView totalBalance;
     public View progress;
+    public AdView adView;
 
     public HistoryUIHelper(View view){
         this.view = view;
@@ -31,6 +32,7 @@ public class HistoryUIHelper {
         this.totalHours = (TextView) view.findViewById(R.id.fragment_history_total_hours);
         this.totalBalance = (TextView) view.findViewById(R.id.fragment_history_total_balance);
         this.progress = view.findViewById(R.id.fragment_history_progress);
+        this.adView = (AdView) view.findViewById(R.id.fragment_time_history_adview);
     }
 
 }

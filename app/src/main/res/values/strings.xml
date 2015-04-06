@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Timesheet</string>
+    <string name="ADMOB_TIMESHEET_PORTRAIT">ca-app-pub-8642896372691767/8037119165</string>
+    <string name="ADMOB_TIMESHEET_LAND">ca-app-pub-8642896372691767/7897518363</string>
+    <string name="ADMOB_HISTORY">ca-app-pub-8642896372691767/4804451164</string>
+    <string name="ADMOB_SETTINGS">ca-app-pub-8642896372691767/1571783168</string>
     <string name="fragment_time_clock">Marker</string>
     <string name="fragment_history">History</string>
     <string name="fragment_settings">Settings</string>

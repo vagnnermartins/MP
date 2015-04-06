@@ -1,10 +1,9 @@
 package com.vagnnermartins.marcaponto.ui.helper;
 
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdView;
 import com.vagnnermartins.marcaponto.R;
 
 /**
@@ -25,6 +24,7 @@ public class TimeSheetUIHelper {
     public View pauseMain;
     public View backMain;
     public View quitMain;
+    public AdView adView;
 
     public TimeSheetUIHelper(View view){
         this.view = view;
@@ -40,5 +40,6 @@ public class TimeSheetUIHelper {
         this.pauseMain = view.findViewById(R.id.fragment_time_sheet_pause_main);
         this.backMain = view.findViewById(R.id.fragment_time_sheet_back_main);
         this.quitMain = view.findViewById(R.id.fragment_time_sheet_quit_main);
+        this.adView = (AdView) view.findViewById(R.id.fragment_time_sheet_adview);
     }
 }

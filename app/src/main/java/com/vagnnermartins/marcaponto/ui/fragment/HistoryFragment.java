@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import com.vagnnermartins.marcaponto.task.FindHistoriesAsyncTask;
 import com.vagnnermartins.marcaponto.task.SaveHistoryAsyncTask;
 import com.vagnnermartins.marcaponto.ui.helper.HistoryUIHelper;
 import com.vagnnermartins.marcaponto.util.DataUtil;
+
+import com.google.android.gms.ads.AdRequest;
 
 import java.io.File;
 import java.util.Calendar;
@@ -71,6 +74,14 @@ public class HistoryFragment extends Fragment {
         ui.next.setOnClickListener(onNextClickListener());
         ui.list.setOnItemClickListener(onItemClickListener());
         loadDate();
+        initAdmob();
+    }
+
+    private void initAdmob() {
+        AdRequest adRequestProd = new AdRequest.Builder()
+                .addTestDevice("2C9AEADE49D960B9D04C47AD8B18EAEB")
+                .build();
+        ui.adView.loadAd(adRequestProd);
     }
 
     public void checkStatus(StatusEnum status){
@@ -103,7 +114,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void loadDate(){
-        String date = DataUtil.getMonth(app.dateHistory.get(Calendar.MONTH), getResources()) +
+        String date = DataUtil.getMonth(app.dateHistory.get(Calendar.DAY_OF_MONTH), getResources()) +
                 " / " + app.dateHistory.get(Calendar.YEAR);
         ui.date.setText(date);
     }

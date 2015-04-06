@@ -19,6 +19,8 @@ import com.vagnnermartins.marcaponto.ui.helper.TimesUIHelper;
 import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 
+import com.google.android.gms.ads.AdRequest;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +48,14 @@ public class TimesActivity extends ActionBarActivity {
         ui = new TimesUIHelper(getWindow().getDecorView().findViewById(android.R.id.content));
         setSupportActionBar(ui.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initAdmob();
+    }
+
+    private void initAdmob() {
+        AdRequest adRequestProd = new AdRequest.Builder()
+                .addTestDevice("2C9AEADE49D960B9D04C47AD8B18EAEB")
+                .build();
+        ui.adView.loadAd(adRequestProd);
     }
 
     private void loadValues(){
