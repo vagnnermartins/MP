@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.adapter.SectionsPagerAdapter;
 import com.vagnnermartins.marcaponto.app.App;
+import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
 import com.vagnnermartins.marcaponto.ui.helper.MainUIHelper;
 
 

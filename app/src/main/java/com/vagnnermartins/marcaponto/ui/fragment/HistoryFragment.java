@@ -18,13 +18,17 @@ import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.adapter.HistoryAdapter;
 import com.vagnnermartins.marcaponto.app.App;
 import com.vagnnermartins.marcaponto.callback.Callback;
+import com.vagnnermartins.marcaponto.contants.Constants;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.enums.StatusEnum;
+import com.vagnnermartins.marcaponto.enums.TrackerName;
 import com.vagnnermartins.marcaponto.task.FindHistoriesAsyncTask;
 import com.vagnnermartins.marcaponto.task.SaveHistoryAsyncTask;
 import com.vagnnermartins.marcaponto.ui.helper.HistoryUIHelper;
@@ -75,6 +79,14 @@ public class HistoryFragment extends Fragment {
         ui.list.setOnItemClickListener(onItemClickListener());
         loadDate();
         initAdmob();
+        initAnalytics();
+    }
+
+    private void initAnalytics() {
+        Tracker t = app.getTracker( TrackerName.APP_TRACKER);
+        t.enableAdvertisingIdCollection(true);
+        t.setScreenName(Constants.ANALYTICS_HISTORY);
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void initAdmob() {
@@ -86,7 +98,7 @@ public class HistoryFragment extends Fragment {
 
     public void checkStatus(StatusEnum status){
         if(status == StatusEnum.INICIO){
-            FindHistoriesAsyncTask task = new FindHistoriesAsyncTask(getActivity(), onFindHistoryCallback(), app.dateHistory.getTime());
+            FindHistoriesAsyncTask task = new FindHistoriesAsyncTask(onFindHistoryCallback(), app.dateHistory.getTime());
             task.execute();
             app.registerTask(task);
             checkStatus(StatusEnum.EXECUTANDO);
@@ -114,7 +126,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void loadDate(){
-        String date = DataUtil.getMonth(app.dateHistory.get(Calendar.DAY_OF_MONTH), getResources()) +
+        String date = DataUtil.getMonth(app.dateHistory.get(Calendar.MONTH), getResources()) +
                 " / " + app.dateHistory.get(Calendar.YEAR);
         ui.date.setText(date);
     }

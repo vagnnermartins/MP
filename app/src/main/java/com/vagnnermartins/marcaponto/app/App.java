@@ -5,9 +5,14 @@ import android.os.AsyncTask;
 
 import com.codeslap.persistence.DatabaseSpec;
 import com.codeslap.persistence.PersistenceConfig;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+import com.vagnnermartins.marcaponto.R;
+import com.vagnnermartins.marcaponto.contants.Constants;
 import com.vagnnermartins.marcaponto.db.Database;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.entity.Time;
+import com.vagnnermartins.marcaponto.enums.TrackerName;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
 import com.vagnnermartins.marcaponto.ui.fragment.HistoryFragment;
 import com.vagnnermartins.marcaponto.util.AlarmUtil;
@@ -29,6 +34,7 @@ public class App extends Application {
     public Map<Integer, Time> mapTimes;
     public Map<String, History> mapHistories;
     public HistoryFragment historyFragment;
+    private HashMap<TrackerName, Tracker> mTrackers;
 
     private List<AsyncTask<?,?,?>> tasks;
 
@@ -45,6 +51,7 @@ public class App extends Application {
         mapHistories = new HashMap<>();
         dateHistory = Calendar.getInstance();
         tasks = new ArrayList<>();
+        mTrackers = new HashMap<>();
         WidgetUtil.updateWidget(this);
         AlarmUtil.cancellAllNotifications(this);
     }
@@ -56,6 +63,15 @@ public class App extends Application {
         database.match(Time.class);
         database.match(History.class);
         SingletonAdapter.getInstance(this);
+    }
+
+    public synchronized Tracker getTracker(TrackerName trackerId) {
+        if (!mTrackers.containsKey(trackerId)) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            Tracker t = analytics.newTracker(Constants.ANALYTICS_ID);
+            mTrackers.put(trackerId, t);
+        }
+        return mTrackers.get(trackerId);
     }
 
     public void registerTask(AsyncTask<?,?,?> task){

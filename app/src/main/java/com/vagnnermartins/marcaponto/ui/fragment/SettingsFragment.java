@@ -11,7 +11,12 @@ import android.widget.CompoundButton;
 import com.google.android.gms.ads.AdRequest;
 
 import com.gc.materialdesign.widgets.SnackBar;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.vagnnermartins.marcaponto.R;
+import com.vagnnermartins.marcaponto.app.App;
+import com.vagnnermartins.marcaponto.contants.Constants;
+import com.vagnnermartins.marcaponto.enums.TrackerName;
 import com.vagnnermartins.marcaponto.ui.activity.TimesActivity;
 import com.vagnnermartins.marcaponto.ui.helper.SettingsUIHelper;
 import com.vagnnermartins.marcaponto.util.NavegacaoUtil;
@@ -26,6 +31,7 @@ public class SettingsFragment extends Fragment {
     public static final int NAME_TAB = R.string.fragment_settings;
     public static final String NOTIFICATION = "notification";
 
+    private App app;
     private SettingsUIHelper ui;
 
     @Override
@@ -36,11 +42,20 @@ public class SettingsFragment extends Fragment {
     }
 
     private void init() {
+        app = (App) getActivity().getApplication();
         ui.hours.setOnClickListener(onHoursClickListener());
         ui.checkBoxMain.setOnClickListener(onCheckBoxMainClickListener());
         ui.checkBox.setChecked(SessionUtil.getValue(getActivity(), NOTIFICATION));
         ui.checkBox.setOnCheckedChangeListener(onCheckedChangeListener());
         initAdmob();
+        initAnalytics();
+    }
+
+    private void initAnalytics() {
+        Tracker t = app.getTracker( TrackerName.APP_TRACKER);
+        t.enableAdvertisingIdCollection(true);
+        t.setScreenName(Constants.ANALYTICS_SETTINGS);
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void initAdmob() {
@@ -60,14 +75,20 @@ public class SettingsFragment extends Fragment {
     }
 
     private void changeNotificationListener(boolean checked) {
+        Tracker t = app.getTracker( TrackerName.APP_TRACKER);
+        HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder();
+        builder.setAction(Constants.ANALYTICS_NOTIFICATION);
         ui.checkBox.setChecked(checked);
         SessionUtil.addValue(getActivity(), NOTIFICATION, checked);
         String message = getString(R.string.fragment_settings_changed_notification);
         if(checked){
             message = String.format(message, getString(R.string.enabled));
+            builder.setValue(1);
         }else{
             message = String.format(message, getString(R.string.disabled));
+            builder.setValue(0);
         }
+        t.send(builder.build());
         new SnackBar(getActivity(), message).show();
     }
 

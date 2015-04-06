@@ -62,7 +62,7 @@ public class HistoryAdapter extends ArrayAdapter<History> {
     private void calcBalance(History history, int dayOfWeek, ViewHolder holder) {
         Time time = times.get(dayOfWeek);
         int difference = history.getTotalDifferencesSecond() - time.getTotalDifferencesSecond();
-        if(history.getTotalDifferencesSecond() == 0){
+        if(history.getTotalDifferencesSecond() == 0 || time.getTotalDifferencesSecond() == 0){
             holder.balance.setText(R.string.no_hour);
             holder.balance.setTextColor(getContext().getResources().getColor(R.color.second_text));
         }else if(time.getTotalDifferencesSecond() != 0){

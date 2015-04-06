@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,19 +13,22 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.app.App;
 import com.vagnnermartins.marcaponto.callback.Callback;
+import com.vagnnermartins.marcaponto.contants.Constants;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.enums.StatusEnum;
+import com.vagnnermartins.marcaponto.enums.TrackerName;
 import com.vagnnermartins.marcaponto.enums.WhichRegisterEnum;
 import com.vagnnermartins.marcaponto.task.FindHistoryAsyncTask;
 import com.vagnnermartins.marcaponto.ui.helper.TimeSheetUIHelper;
 import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
 import com.vagnnermartins.marcaponto.util.WidgetUtil;
-
-import com.google.android.gms.ads.AdRequest;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -53,8 +55,13 @@ public class TimeSheetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ui = new TimeSheetUIHelper(inflater.inflate(R.layout.fragment_time_sheet, container, false));
         init();
-        checkUpdate();
         return ui.view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkStatus(StatusEnum.INICIO);
     }
 
     private void checkUpdate() {
@@ -76,6 +83,14 @@ public class TimeSheetFragment extends Fragment {
         ui.quitMain.setOnClickListener(onTimesClickListener());
         ui.timeMain.setOnClickListener(onTimeClickListener());
         initAdmob();
+        initAnalytics();
+    }
+
+    private void initAnalytics() {
+        Tracker t = app.getTracker( TrackerName.APP_TRACKER);
+        t.enableAdvertisingIdCollection(true);
+        t.setScreenName(Constants.ANALYTICS_TIMES_SHEET);
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void initAdmob() {
@@ -83,29 +98,6 @@ public class TimeSheetFragment extends Fragment {
                 .addTestDevice("2C9AEADE49D960B9D04C47AD8B18EAEB")
                 .build();
         ui.adView.loadAd(adRequestProd);
-    }
-
-    public static final String md5(final String s) {
-        try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest
-                    .getInstance("MD5");
-            digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
-
-            // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++) {
-                String h = Integer.toHexString(0xFF & messageDigest[i]);
-                while (h.length() < 2)
-                    h = "0" + h;
-                hexString.append(h);
-            }
-            return hexString.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-        }
-        return "";
     }
 
     private void checkStatus(StatusEnum status) {
@@ -218,23 +210,24 @@ public class TimeSheetFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Calendar reseted = DataUtil.getResetedDay();
                 Calendar now = Calendar.getInstance();
-                now.set(Calendar.SECOND, 0);
-                now.set(Calendar.MILLISECOND, 0);
+                reseted.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR_OF_DAY));
+                reseted.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
                 if (currentHistory.getEntrance() == 0) {
-                    currentHistory.setEntrance(now.getTime().getTime());
+                    currentHistory.setEntrance(reseted.getTime().getTime());
                     ui.entrance.setText(currentHistory.getFormattedEntrance());
                     save();
                 } else if (currentHistory.getPause() == 0) {
-                    currentHistory.setPause(now.getTime().getTime());
+                    currentHistory.setPause(reseted.getTime().getTime());
                     ui.pause.setText(currentHistory.getFormattedPause());
                     save();
                 } else if (currentHistory.getBack() == 0) {
-                    currentHistory.setBack(now.getTime().getTime());
+                    currentHistory.setBack(reseted.getTime().getTime());
                     ui.back.setText(currentHistory.getFormattedBack());
                     save();
                 } else if (currentHistory.getQuit() == 0) {
-                    currentHistory.setQuit(now.getTime().getTime());
+                    currentHistory.setQuit(reseted.getTime().getTime());
                     ui.quit.setText(currentHistory.getFormattedQuit());
                     save();
                 }
@@ -316,14 +309,11 @@ public class TimeSheetFragment extends Fragment {
             }
 
             private Calendar configDate(int selectedHour, int selectedMinute) {
-                Calendar selectedDay = Calendar.getInstance();
-                selectedDay.setTime(DataUtil.transformStringToDate("dd/MM/yyyy", currentHistory.getDay()));
-                Calendar calendar = Calendar.getInstance();
+                Calendar calendar = DataUtil.getResetedDay();
                 calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
                 calendar.set(Calendar.MINUTE, selectedMinute);
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
-                calendar.set(Calendar.DAY_OF_MONTH, selectedDay.get(Calendar.DAY_OF_MONTH));
                 return calendar;
             }
         };

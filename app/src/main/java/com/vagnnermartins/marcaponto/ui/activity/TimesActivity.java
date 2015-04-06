@@ -11,15 +11,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.gc.materialdesign.widgets.SnackBar;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.app.App;
+import com.vagnnermartins.marcaponto.contants.Constants;
 import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.enums.StatusEnum;
+import com.vagnnermartins.marcaponto.enums.TrackerName;
 import com.vagnnermartins.marcaponto.ui.helper.TimesUIHelper;
 import com.vagnnermartins.marcaponto.util.AlarmUtil;
 import com.vagnnermartins.marcaponto.util.DataUtil;
-
-import com.google.android.gms.ads.AdRequest;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -49,6 +52,14 @@ public class TimesActivity extends ActionBarActivity {
         setSupportActionBar(ui.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initAdmob();
+        initAnalytics();
+    }
+
+    private void initAnalytics() {
+        Tracker t = app.getTracker( TrackerName.APP_TRACKER);
+        t.enableAdvertisingIdCollection(true);
+        t.setScreenName(Constants.ANALYTICS_TIMES);
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void initAdmob() {
@@ -85,8 +96,8 @@ public class TimesActivity extends ActionBarActivity {
                 }else{
                     calendar.setTime(new Date(selectedTime.getEntrance()));
                 }
-
-                showTimePicker(R.string.entrance, calendar.get(Calendar.HOUR_OF_DAY),
+                String day = DataUtil.getDayOfWeek(selectedTime.getId(), getResources());
+                showTimePicker(day + ", " + getString(R.string.entrance), calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE));
             }
         };
@@ -105,7 +116,8 @@ public class TimesActivity extends ActionBarActivity {
                 }else{
                     calendar.setTime(new Date(selectedTime.getPause()));
                 }
-                showTimePicker(R.string.pause, calendar.get(Calendar.HOUR_OF_DAY),
+                String day = DataUtil.getDayOfWeek(selectedTime.getId(), getResources());
+                showTimePicker(day + ", " + getString(R.string.pause),calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE));
             }
         };
@@ -124,7 +136,8 @@ public class TimesActivity extends ActionBarActivity {
                 }else{
                     calendar.setTime(new Date(selectedTime.getBack()));
                 }
-                showTimePicker(R.string.back, calendar.get(Calendar.HOUR_OF_DAY),
+                String day = DataUtil.getDayOfWeek(selectedTime.getId(), getResources());
+                showTimePicker(day + ", " + getString(R.string.back),calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE));
             }
         };
@@ -143,13 +156,14 @@ public class TimesActivity extends ActionBarActivity {
                 }else{
                     calendar.setTime(new Date(selectedTime.getQuit()));
                 }
-                showTimePicker(R.string.quit, calendar.get(Calendar.HOUR_OF_DAY),
+                String day = DataUtil.getDayOfWeek(selectedTime.getId(), getResources());
+                showTimePicker(day + ", " + getString(R.string.quit),calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE));
             }
         };
     }
 
-    private void showTimePicker(int title, int hour, int minute){
+    private void showTimePicker(String title, int hour, int minute){
         TimePickerDialog dialog = new TimePickerDialog(this, onTimeSetListener(), hour, minute, true);
         dialog.setTitle(title);
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(android.R.string.cancel), onCancelClickListener());
@@ -185,9 +199,7 @@ public class TimesActivity extends ActionBarActivity {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 if(!cancel){
-                    Calendar selectedDay = Calendar.getInstance();
-                    selectedDay.setTime(new Date(0));
-                    Calendar calendar = Calendar.getInstance();
+                    Calendar calendar = DataUtil.getResetedDay();
                     calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
                     calendar.set(Calendar.MINUTE, selectedMinute);
                     calendar.set(Calendar.SECOND, 0);

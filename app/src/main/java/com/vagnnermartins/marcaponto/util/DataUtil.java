@@ -81,6 +81,14 @@ public class DataUtil {
         return sb.toString();
     }
 
+    public static Calendar getResetedDay(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(0));
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
+    }
+
     private static String checkDay(Calendar calendar, Resources res) {
         String result = "";
         Calendar today = Calendar.getInstance();
