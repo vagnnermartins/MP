@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Marca Ponto</string>
+    <string name="ADMOB_TIMESHEET_PORTRAIT">ca-app-pub-8642896372691767/8037119165</string>
+    <string name="ADMOB_TIMESHEET_LAND">ca-app-pub-8642896372691767/7897518363</string>
+    <string name="ADMOB_HISTORY">ca-app-pub-8642896372691767/4804451164</string>
+    <string name="ADMOB_SETTINGS">ca-app-pub-8642896372691767/1571783168</string>
+    <string name="ADMOB_INTERSTITIAL">ca-app-pub-8642896372691767/7401003969</string>
     <string name="fragment_time_clock">Marcador</string>
     <string name="fragment_history">Histórico</string>
     <string name="fragment_settings">Configurações</string>
@@ -29,6 +34,7 @@
     <string name="total">TOTAL</string>
     <string name="balance">Saldo</string>
     <string name="hours">Carga Horária</string>
+    <string name="csv">CSV</string>
     <string name="share">Compartilhar</string>
 
     <string name="january">Janeiro</string>

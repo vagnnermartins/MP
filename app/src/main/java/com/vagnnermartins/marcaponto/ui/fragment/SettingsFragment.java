@@ -66,7 +66,7 @@ public class SettingsFragment extends Fragment {
 
     private void initAdmob() {
         AdRequest adRequestProd = new AdRequest.Builder()
-                .addTestDevice("2C9AEADE49D960B9D04C47AD8B18EAEB")
+//                .addTestDevice("2C9AEADE49D960B9D04C47AD8B18EAEB")
                 .build();
         ui.adView.loadAd(adRequestProd);
     }
