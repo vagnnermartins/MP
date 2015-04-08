@@ -11,7 +11,7 @@ public class Database extends SQLiteAssetHelper {
 
     public static final String DATABASE_SPEC = "timesheet.spec";
     public static final String DATABASE_NAME = "timesheet.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
 
     public Database(Context context) {

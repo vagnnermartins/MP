@@ -10,6 +10,8 @@
     <string name="fragment_settings">Ajustes</string>
     <string name="time_clock_register">Registro Point</string>
     <string name="fragment_settings_hours">Horario</string>
+    <string name="fragment_settings_hourly">Cada Hora</string>
+    <string name="fragment_settings_hourly_hint">Ingrese su hourly</string>
     <string name="fragment_settings_entrance_hour">Registrar los tiempos de entrada y salida</string>
     <string name="times_entrance_hour">Regístrese a continuación los horarios de entrada y salida</string>
     <string name="entrance">Entrada</string>
@@ -59,4 +61,5 @@
     <string name="friday">Vie</string>
     <string name="saturday">Sáb</string>
     <string name="date">Fecha</string>
+    <string name="first_time">Preparación para la primera vez</string>
 </resources>

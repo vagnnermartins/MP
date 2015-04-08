@@ -10,6 +10,8 @@
     <string name="fragment_settings">Configurações</string>
     <string name="time_clock_register">Registrar Ponto</string>
     <string name="fragment_settings_hours">Horários</string>
+    <string name="fragment_settings_hourly">Valor por Hora</string>
+    <string name="fragment_settings_hourly_hint">Digite seu valor hora</string>
     <string name="fragment_settings_entrance_hour">Cadastrar horários de entrada e saída</string>
     <string name="times_entrance_hour">Cadastre abaixo os horários de entrada e saída</string>
     <string name="entrance">Entrada</string>
@@ -60,4 +62,5 @@
     <string name="friday">Sex</string>
     <string name="saturday">Sáb</string>
     <string name="date">Data</string>
+    <string name="first_time">Preparando para a primeira vez</string>
 </resources>

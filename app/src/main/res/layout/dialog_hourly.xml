@@ -1,0 +1,7 @@
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/fragment_settings_hourly_hint"
+    android:inputType="numberDecimal"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    android:textColor="@color/second_text" />

@@ -11,4 +11,6 @@ public class Constants {
     public static final String ANALYTICS_SETTINGS = "SETTINGS FRAGMENT";
     public static final String ANALYTICS_TIMES = "TIMES ACTIVITY";
     public static final String ANALYTICS_NOTIFICATION = "NOTIFICATION";
+    public static final String UPDATED = "updated";
+    public static final String NOTIFICATION = "notification";
 }

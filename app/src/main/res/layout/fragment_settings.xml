@@ -35,23 +35,26 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/fragment_settings_time_value"
+            android:id="@+id/fragment_settings_hourly_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fragment_settings_hours"
+                android:text="@string/fragment_settings_hourly"
                 android:textColor="@color/accent"
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/fragment_settings_hourly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/fragment_settings_entrance_hour"
+                android:text="USD: 00:00"
                 android:textColor="@color/second_text" />
         </LinearLayout>
 

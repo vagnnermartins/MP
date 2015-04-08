@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.vagnnermartins.marcaponto.R;
+import com.vagnnermartins.marcaponto.contants.Constants;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.enums.WhichRegisterEnum;
@@ -76,7 +77,7 @@ public class AlarmUtil {
     }
 
     public static void scheduleAllNotification(Context context) {
-        if(SessionUtil.getValue(context, SettingsFragment.NOTIFICATION)){
+        if(SessionUtil.getValue(context, Constants.NOTIFICATION)){
             List<Time> times = SingletonAdapter.getInstance(context).getAdapter().findAll(Time.class);
             Calendar calendar = Calendar.getInstance();
             List<History> result = new ArrayList<>();

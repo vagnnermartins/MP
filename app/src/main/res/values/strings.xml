@@ -10,6 +10,8 @@
     <string name="fragment_settings">Settings</string>
     <string name="time_clock_register">Register Point</string>
     <string name="fragment_settings_hours">Timetable</string>
+    <string name="fragment_settings_hourly">Hourly</string>
+    <string name="fragment_settings_hourly_hint">Type your hourly</string>
     <string name="fragment_settings_entrance_hour">Register entry and exit times</string>
     <string name="times_entrance_hour">Register below the entry and departure times</string>
     <string name="entrance">Entry</string>
@@ -59,4 +61,5 @@
     <string name="friday">Fri</string>
     <string name="saturday">Sat</string>
     <string name="date">Date</string>
+    <string name="first_time">Preparing for the first time</string>
 </resources>

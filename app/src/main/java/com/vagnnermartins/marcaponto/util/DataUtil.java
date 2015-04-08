@@ -53,6 +53,14 @@ public class DataUtil {
         return sb.toString();
     }
 
+    public static String obterHoraMinutoComDoisDigitos(int hourOrMinute){
+        String retorno = String.valueOf(hourOrMinute);
+        if(retorno.length() == 1){
+            retorno = "0" + hourOrMinute;
+        }
+        return retorno;
+    }
+
     private static String getDefaultDateToString(Date time, Resources res){
         StringBuilder sb = new StringBuilder();
         Calendar calendar = Calendar.getInstance();

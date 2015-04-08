@@ -1,0 +1,6 @@
+CREATE TABLE `settings` (
+	`_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`hourly`	INTEGER
+);
+
+INSERT INTO settings VALUES (1, 0);

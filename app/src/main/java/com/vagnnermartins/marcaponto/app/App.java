@@ -13,6 +13,7 @@ import com.vagnnermartins.marcaponto.R;
 import com.vagnnermartins.marcaponto.contants.Constants;
 import com.vagnnermartins.marcaponto.db.Database;
 import com.vagnnermartins.marcaponto.entity.History;
+import com.vagnnermartins.marcaponto.entity.Settings;
 import com.vagnnermartins.marcaponto.entity.Time;
 import com.vagnnermartins.marcaponto.enums.TrackerName;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
@@ -36,9 +37,11 @@ public class App extends Application {
     public Map<Integer, Time> mapTimes;
     public Map<String, History> mapHistories;
     public HistoryFragment historyFragment;
-    private HashMap<TrackerName, Tracker> mTrackers;
-    public PublisherInterstitialAd mPublisherInterstitialAd;
+    public Settings settings;
     public int showInterstitial = 1;
+    public PublisherInterstitialAd mPublisherInterstitialAd;
+
+    private HashMap<TrackerName, Tracker> mTrackers;
 
     private List<AsyncTask<?,?,?>> tasks;
 
@@ -69,7 +72,7 @@ public class App extends Application {
     }
 
     public void showInterstitial() {
-        if(showInterstitial == 7 || showInterstitial % 40 == 0) {
+        if(showInterstitial == 14 || showInterstitial % 40 == 0) {
             if(mPublisherInterstitialAd.isLoaded()){
                 mPublisherInterstitialAd.show();
                 requestNewInterstitial();
@@ -82,8 +85,7 @@ public class App extends Application {
         Database db = new Database(getApplicationContext());
         db.getWritableDatabase();
         DatabaseSpec database = PersistenceConfig.registerSpec(Database.DATABASE_SPEC, Database.DATABASE_VERSION);
-        database.match(Time.class);
-        database.match(History.class);
+        database.match(Time.class, History.class, Settings.class);
         SingletonAdapter.getInstance(this);
     }
 
@@ -96,8 +98,10 @@ public class App extends Application {
         return mTrackers.get(trackerId);
     }
 
-    public void registerTask(AsyncTask<?,?,?> task){
-        tasks.add(task);
+    public void registerTask(AsyncTask<?,?,?>... itens){
+        for(AsyncTask<?,?,?> task : itens){
+            tasks.add(task);
+        }
     }
 
     public void unregisterTask(AsyncTask<?,?,?> task){

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.vagnnermartins.marcaponto.R;
+import com.vagnnermartins.marcaponto.contants.Constants;
 import com.vagnnermartins.marcaponto.entity.History;
 import com.vagnnermartins.marcaponto.singleton.SingletonAdapter;
 import com.vagnnermartins.marcaponto.ui.activity.SplashScreenActivity;
@@ -30,7 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         History history = findHistory(intent);
         int title = intent.getIntExtra(TITLE, 0);
         int id = intent.getIntExtra(ID, 0);
-        if (SessionUtil.getValue(context, SettingsFragment.NOTIFICATION) &&
+        if (SessionUtil.getValue(context, Constants.NOTIFICATION) &&
                 emptyHistory(history, title)) {
             String message = getMessage(context, title);
             NotificationCompat.Builder mBuilder =
