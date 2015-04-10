@@ -132,7 +132,8 @@ public class SettingsFragment extends Fragment {
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.fragment_settings_hourly)
                         .setView(editText)
-                        .setPositiveButton(android.R.string.ok, onPositiveButton(editText)).setNegativeButton(android.R.string.cancel, null).show();
+                        .setPositiveButton(android.R.string.ok, onPositiveButton(editText))
+                        .setNegativeButton(android.R.string.cancel, null).show();
             }
 
             private DialogInterface.OnClickListener onPositiveButton(final EditText editText) {
